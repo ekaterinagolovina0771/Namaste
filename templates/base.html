@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} "NAMASTE - путь света" {% endblock title %}</title>
+</head>
+<body>
+    <div class="d-flex flex-column min-vh-100">
+        <header>
+            {% include 'include_nav_menu.html' %}
+        </header>
+
+        <main class="flex-grow-1">
+            {% block content %}{% endblock %}
+        </main>
+        <footer class="footer-dark mt-auto">
+            <div class="container text-center text-md-start">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <h5 class="mb-3">NAMASTE - путь света</h5>
+                        <p>г. Курган</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5 class="mb-3">Контакты</h5>
+                        <p><i class="bi bi-telephone"></i> +7 900 000-00-00</p>
+                        <p><i class="bi bi-envelope"></i> hello@</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5 class="mb-3">Мы в соцсетях</h5>
+                        <a class="text-white me-2" href="#"><i class="bi bi-instagram"></i></a>
+                        <a class="text-white me-2" href="#"><i class="bi bi-telegram"></i></a>
+                        <a class="text-white" href="#"><i class="bi bi-vk"></i></a>
+                    </div>
+                </div>
+                <hr class="my-4" />
+                <div class="text-center">
+                    <span>© 2025 NAMASTE</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% comment %} Подключаю скрипты BS5 {% endcomment %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    {% comment %} Подключаю свои скрипты {% endcomment %}
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/order_form.js' %}"></script>
+  </body>
+</html>

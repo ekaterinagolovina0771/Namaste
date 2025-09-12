@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Coach, Practice, Application, Review
 
-# Register your models here.
+admin.site.register(Coach)
+admin.site.register(Practice)
+admin.site.register(Application)
+admin.site.register(Review)
+
