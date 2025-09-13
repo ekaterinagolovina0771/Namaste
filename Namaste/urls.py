@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-# from core.views import LandingTemplateView
+from core.views import base
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", base),
     # path("", LandingTemplateView.as_view(), name="landing"),
     # path("about/", AboutTemplateView.as_view(), name="about"),
     # path("practices/", practicesTemplateView.as_view(), name="practices"),

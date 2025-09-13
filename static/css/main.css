@@ -1,0 +1,29 @@
+body {
+    font-family: 'Marck Script', cursive;
+    font-weight: bold;
+    background-color: #f5f5f5;
+    color: #066d47;
+}
+
+/* Нежная бежевая тема */
+.bg-light {
+    background-color: #f5f5f5;
+}
+
+.text-light {
+    color: #f5f5f5;
+}
+
+.border-light {
+    border-color: #f5f5f5;
+}
+
+/* Светлозеленые оттенки */
+.bg-light-green {
+    background-color: #e9f5e9;
+}
+
+.text-light-green {
+    color: #e9f5e9;
+}
+
