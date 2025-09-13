@@ -21,9 +21,5 @@ from django.views.generic import (
 )
 # from django.urls import reverse_lazy, reversefrom
 
-
-def base(request) -> HttpResponse:
-    '''
-    Отвечает за маршрут '/'
-    '''
-    return render(request, "base.html")
+class LandingTemplateView(TemplateView):
+    template_name = "landing.html"

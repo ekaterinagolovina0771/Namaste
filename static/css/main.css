@@ -5,6 +5,25 @@ body {
     color: #066d47;
 }
 
+.custom-telegram {
+    color: rgba(1, 69, 162, 0.863);
+}
+
+.custom-telegram i {
+    color: rgba(1, 69, 162, 0.863);
+}
+.custom-wa {
+    color: rgb(28, 122, 30);
+}
+
+.custom-wa i {
+    color: rgb(28, 122, 30);
+}
+
+
+
+
+
 /* Нежная бежевая тема */
 .bg-light {
     background-color: #f5f5f5;
