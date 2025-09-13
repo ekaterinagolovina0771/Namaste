@@ -1,7 +1,7 @@
 from django import forms
 from .models import Coach, Practice, Application, Review
 from django.utils import timezone
-from datetime import datetime
+from datetime import time
 
 
 class ReviewModelForm(forms.ModelForm):
@@ -13,4 +13,30 @@ class ReviewModelForm(forms.ModelForm):
             "name": forms.TextInput(attrs={"class": "form-control"}),
             "rating": forms.Select(attrs={"class": "form-control"}),
             "photo": forms.FileInput(attrs={"class": "form-control"}),
+        }
+
+class ApplicationForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ["name", "phone", "comment", "appointment_date", "appointment_time"]
+        widgets = {
+            "name": forms.TextInput(
+                attrs={"placeholder": "Ваше имя", "class": "form-control"}
+            ),
+            "phone": forms.TextInput(
+                attrs={"placeholder": "+7 (999) 999-99-99", "class": "form-control"}
+            ),
+            "comment": forms.Textarea(
+                attrs={
+                    "placeholder": "Комментарий к заказу",
+                    "class": "form-control",
+                    "rows": 3,
+                }
+            ),
+            "appointment_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}
+            ),
+            "appointment_time": forms.TimeInput(
+                attrs={"type": "time", "class": "form-control"}
+            ),
         }

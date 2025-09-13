@@ -41,6 +41,7 @@ class Application(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name="Дата создания")
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
     appointment_date = models.DateField(null=True, blank=True, verbose_name="Дата записи")
+    appointment_time = models.TimeField(null=True, blank=True, verbose_name="Время записи")
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
@@ -78,6 +79,7 @@ class Review(models.Model):
         related_name="reviews",
         verbose_name="Тренер",
         null=True,
+        blank=True,
     )
     photo = models.ImageField(
         upload_to="reviews/", blank=True, null=True, verbose_name="Фото"

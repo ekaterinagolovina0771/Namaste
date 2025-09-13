@@ -1,5 +1,5 @@
 # core/views.py
-from .forms import ReviewModelForm
+from .forms import ReviewModelForm, ApplicationForm
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
@@ -69,3 +69,14 @@ class ThanksTemplateView(TemplateView):
 
 class СontraindicationsTemplateView(TemplateView):
     template_name = "contraindications.html"
+
+class ReviewsListView(ListView):
+    template_name = "reviews_list.html"
+    model = Review
+    context_object_name = "reviews"
+
+class ApplicationCreateView(CreateView):
+    form_class = ApplicationForm
+    template_name = "application_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "application-create"})
+   

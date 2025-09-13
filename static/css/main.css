@@ -1,19 +1,26 @@
 :root {
   --bs-body-bg: #f3f9fc; /* !!! Самые светлые участки неба для фона*/
   --brand-blue: #e2ebf4;
+  --font-family-heading: 'Pacifico', cursive;
+  --color: #066d47;
 }
 
 body {
     font-family: 'Marck Script', cursive;
     font-weight: bold;
-    color: #066d47;
+    color: #066d47; /* Обновлен цвет шрифта на темно-зеленый */
+}
+
+card-body {
+    font-family: 'Marck Script', cursive;
+    font-weight: bold;
+    color: #066d47; /* Обновлен цвет шрифта на темно-зеленый */
 }
 
 .custom-navbar {
-    background-color: #d81313; /* цвет фона */
-    color: #b11a33; /* ---- цвета текста */
+    background-color: #d81313; /* Цвет фона */
+    color: #b11a33; /* ---- Цвет текста */
 }
-
 
 .custom-navbar .navbar-brand {
     color: #8dabd1; /* !!! Самые темные участки неба для цвета текста логотипа */
@@ -21,15 +28,15 @@ body {
 }
 
 .custom-navbar .navbar-nav .nav-link {
-    color: #b11616; /* цвет текста ссылок */
+    color: #b11616; /* Цвет текста ссылок */
 }
 
 .custom-navbar .navbar-nav .nav-link:hover {
-    color: #cb0f0f; /* цвет текста при наведении */
+    color: #cb0f0f; /* Цвет текста при наведении */
 }
 
 .custom-navbar .navbar-toggler-icon {
-    background-color: #cb0606; /* цвет иконки раскрытия/сворачивания меню */
+    background-color: #cb0606; /* Цвет иконки раскрытия/сворачивания меню */
 }
 
 .custom-telegram {
@@ -39,6 +46,7 @@ body {
 .custom-telegram i {
     color: rgba(1, 69, 162, 0.863);
 }
+
 .custom-wa {
     color: rgb(28, 122, 30);
 }
@@ -51,14 +59,13 @@ body {
 .form-group select,
 .form-group textarea {
     font-size: 18px;
-    color: #066d47;
+    color: #066d47; /* Обновлен цвет шрифта на темно-зеленый */
 }
 
 .btn-success {
     font-size: 18px;
     color: white;
 }
-
 
 .contraindications-column {
     display: flex;
@@ -72,3 +79,16 @@ body {
     object-fit: contain;
     flex-shrink: 0;
 }
+
+ .review-name {
+        color: #066d47; /* Updated font color to dark green */
+    }
+
+.review-text {
+        color: #066d47; /* Updated font color to dark green */
+    }
+
+    .card-body h5,
+    .card-body p {
+        color: #066d47; /* Updated font color to dark green */
+    }
