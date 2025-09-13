@@ -60,3 +60,15 @@ body {
 }
 
 
+.contraindications-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contraindications-column img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+}
