@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path
-from core.views import LandingTemplateView, ReviewCreateView, ThanksTemplateView
+from core.views import LandingTemplateView, ReviewCreateView, ThanksTemplateView, СontraindicationsTemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", LandingTemplateView.as_view(), name="landing"),
-    # path("about/", AboutTemplateView.as_view(), name="about"),
+    path("contraindications/", СontraindicationsTemplateView.as_view(), name="contraindications"),
     # path("practices/", practicesTemplateView.as_view(), name="practices"),
     # path("practice/<int:practice_id>/", practiceDetailView.as_view(), name="practice"),
     # path("practice/create/", practiceCreateView.as_view(), name="practice-create"),

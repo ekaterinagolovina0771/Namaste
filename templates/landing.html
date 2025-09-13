@@ -3,7 +3,7 @@
 {% block content %}
 
 {# Hero секция #}
-<section id="top" class="py-5">
+<section id="top" class="py-2">
     <div class="container">
         <div class="row align-items-center py-5">
             <div class="col-md-6">
@@ -19,4 +19,74 @@
         </div>
     </div>
 </section>
+{# Блок с общей информацией о йоге в гамаках #}
+<section id="yoga-info" class="py-1">
+    <div class="container">
+        <div class="row align-items-center py-5">
+            <div class="col-md-6 order-md-1">
+                <img src="{% static 'images/yoga-beach.jpg' %}" class="img-fluid rounded mb-5" alt="yoga in beach" style="max-height: 800px;">
+            </div>
+            <div class="col-md-6 order-md-2">
+                <h2 class="display-6 fw-bold mb-3 text-center">Йога в гамаках</h2>
+                <h2 class="display-7 fw-bold mb-3 text-center">Что дает практика?</h2>
+                <div class="d-flex flex-column">
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">гамак служит инструментом для правильного распределения веса в перевернутых асанах, то есть во время упражнения позвоночник не сжимается под давлением тела, а наоборот растягивается, от чего улучшается осанка;</p>
+                    </div>
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">повышается упругость всего тела, сухожилия становятся эластичнее;</p>
+                    </div>
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">повышается подвижность суставов;</p>
+                    </div>
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">уходит гипертонус мышц шеи, спины, поясницы, тазового отдела;</p>
+                    </div>
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">улучшается мозговая активность за счет повышения кровотока;</p>
+                    </div>
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">нормализуется работа пищеварительного тракта;</p>
+                    </div>
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">снижается уровень стресса, так как покачивание в гамаке вызывает детские ассоциации с качелями, возникает чувство безмятежности, легкости;</p>
+                    </div>
+                    <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">практикующий учится искать центр тяжести, это учит управлять телом, достигать баланса на физическом и эмоциональном уровнях;</p>
+                    </div>
+                                        <div class="flex-fill text-center">
+                        <i class="bi bi-sun me-2"></i>
+                        <p class="lead mb-0">нестандартный подход к привычным действиям открывает новые ресурсы мышления, расширяет границы восприятия.</p>
+                    </div>
+                <a href="{% url 'contraindications' %}" class="btn btn-lg px-5" style="background-color: var(--brand-gold); color: white; border: none;">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Раздел с противопоказаниями #}
+<section id="contraindications" class="py-5">
+    <div class="container">
+        <div class="row align-items-center py-5">
+            <div class="col-12 col-lg-12 text-center">
+                <p class="lead mb-4 text-center">‼️Практика может принести вред только при неграмотном подходе. Важно ознакомиться с противопоказаниями.‼️</p>
+                <div class="d-flex justify-content-center align-items-center" style="margin-top: 20px;">
+                <a href="{% url 'contraindications' %}" class="btn btn-success rounded-pill px-5 сentered-button">Ознакомиться с противопоказаниями</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="my-5"></div>
+
 {% endblock content %}

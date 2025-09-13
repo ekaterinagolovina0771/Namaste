@@ -66,3 +66,6 @@ class ThanksTemplateView(TemplateView):
             context["message"] = "Спасибо за ваше обращение!"
 
         return context
+
+class СontraindicationsTemplateView(TemplateView):
+    template_name = "contraindications.html"
