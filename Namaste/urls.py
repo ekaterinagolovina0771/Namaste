@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from core.views import LandingTemplateView
+from core.views import LandingTemplateView, ReviewCreateView, ThanksTemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -17,8 +17,8 @@ urlpatterns = [
     # path("application/create/", ApplicationCreateView.as_view(), name="application-create"),
     # path("application/update/<int:application_id>/", ApplicationUpdateView.as_view(), name="application-update"),
     # path("application/delete/<int:application_id>/", ApplicationDeleteView.as_view(), name="application-delete"),
-    # path("review/create/", ReviewCreateView.as_view(), name="review-create"),
+    path("review/create/", ReviewCreateView.as_view(), name="review-create"),
     # path("contacts/", ContactsTemplateView.as_view(), name="contacts"),
     # path("instructor/", InstructorTemplateView.as_view(), name="instructor"),
-    # path("thanks/", ThanksTemplateView.as_view(), name="thanks"),
+    path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
 ]

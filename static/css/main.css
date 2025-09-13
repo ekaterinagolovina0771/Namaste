@@ -47,7 +47,16 @@ body {
     color: rgb(28, 122, 30);
 }
 
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 18px;
+        color: #066d47;
+    }
 
-
+    .btn-success {
+        font-size: 18px;
+        color: white;
+    }
 
 

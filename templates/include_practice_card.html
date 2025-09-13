@@ -1,0 +1,19 @@
+{% load static %}
+<div class="col">
+  <div class="card h-100 text-center position-relative">
+    {% if practice.image %}
+      <img src="{{ practice.image.url }}"
+           class="card-img-top" alt="{{ practice.name }}">
+    {% else %}
+      <img src="{% static 'images/default_service.webp' %}"
+           class="card-img-top" alt="{{ practice.name }}">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ practice.name }}</h5>
+      <p class="card-text">{{ practice.description|truncatewords:12 }}</p>
+    </div>
+    <div class="card-footer">
+      <span class="fw-bold">{{ practice.price }} ₽</span>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ from django.db import models
 class Coach(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
     experience = models.TextField(blank=True, verbose_name='Опыт')
-    image = models.ImageField(upload_to='coach/', verbose_name='Изображение', null=True, blank=True)
+    photo = models.ImageField(upload_to='coach/', verbose_name='Изображение', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -41,7 +41,6 @@ class Application(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name="Дата создания")
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
     appointment_date = models.DateField(null=True, blank=True, verbose_name="Дата записи")
-    practice = models.ManyToManyField("Practice", verbose_name="Практика", default=None, related_name="applications")
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
