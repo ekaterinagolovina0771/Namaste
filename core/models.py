@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from datetime import time
+from datetime import time, datetime
 
 class Coach(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
@@ -42,9 +42,9 @@ class Application(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, default="new", max_length=20, verbose_name="Статус")
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name="Дата создания")
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
-    appointment_date = models.DateField(null=True, blank=True, verbose_name="Дата записи")
-    appointment_time = models.TimeField(null=True, blank=True, verbose_name="Время записи")
-    
+    appointment_date = models.DateField(null=False, default=datetime.now, verbose_name="Дата записи")
+    appointment_time = models.TimeField(null=False, default=time(9, 0), verbose_name="Время записи")
+
 
     def __str__(self):
         return f"{self.name} - {self.phone}"

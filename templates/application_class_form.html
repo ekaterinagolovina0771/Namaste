@@ -19,33 +19,14 @@
                         {% for error in field.errors %}
                             <div class="alert alert-danger mt-1">{{ error }}</div>
                         {% endfor %}
-                            {% comment %} Если поле practices то мы заходим в рендер чекбоксов услуг {% endcomment %}
-                            {% if field.name == 'practices' %}
-                            <div class="mb-3">
-                                <label class="form-label">{{ field.label }}</label>
-                                <div id="practices-container" class="row">
-                                    {% for choice in form.practices %}
-                                        <div class="col-6 form-check">
-                                            {{ choice.tag }}
-                                            <label class="form-check-label" for="{{ choice.id_for_label }}">
-                                                {{ choice.choice_label }}
-                                            </label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            {% else %}
                             <div class="mb-3">
                                 {{ field.label_tag }}
                                 {{ field }}
                                 {% if field.help_text %}
                                     <small class="form-text text-muted">{{ field.help_text }}</small>
                                 {% endif %}
-                                
-                                {% endif %}
                             </div>
                         {% endfor %}
-                        
                         <button type="submit" class="btn btn-success w-100">Сохранить</button>
                     </form>
                 </div>
