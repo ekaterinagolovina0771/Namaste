@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Coach, Practice, Application, Review
+from .models import Application, Review, Schedule
 
-admin.site.register(Coach)
-admin.site.register(Practice)
 admin.site.register(Application)
 admin.site.register(Review)
+admin.site.register(Schedule)
 

@@ -2,31 +2,6 @@ from django.db import models
 from django.utils import timezone
 from datetime import time, datetime
 
-class Coach(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Имя')
-    experience = models.TextField(blank=True, verbose_name='Опыт')
-    photo = models.ImageField(upload_to='coach/', verbose_name='Изображение', null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Тренер'
-        verbose_name_plural = 'Тренеры'
-
-class Practice(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название')
-    description = models.TextField(blank=True, verbose_name='Описание')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Стоимость")
-    duration = models.PositiveIntegerField(verbose_name="Продолжительность", help_text="Продолжительность практики в минутах", default=60)
-    image = models.ImageField(upload_to='practices/', verbose_name='Изображение', null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Практика'
-        verbose_name_plural = 'Практики'
 
 class Schedule(models.Model):
     date = models.DateField(default=timezone.now)
@@ -87,14 +62,6 @@ class Review(models.Model):
     text = models.TextField(verbose_name="Текст отзыва")
     rating = models.PositiveSmallIntegerField(
         choices=RATING_CHOICES, verbose_name="Рейтинг", default=5
-    )
-    coach = models.ForeignKey(
-        "Coach",
-        on_delete=models.SET_NULL,
-        related_name="reviews",
-        verbose_name="Тренер",
-        null=True,
-        blank=True,
     )
     photo = models.ImageField(
         upload_to="reviews/", blank=True, null=True, verbose_name="Фото"

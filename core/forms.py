@@ -1,5 +1,5 @@
 from django import forms
-from .models import Coach, Practice, Application, Review, Schedule
+from .models import Application, Review, Schedule
 from django.utils import timezone
 from datetime import time
 
@@ -39,10 +39,6 @@ class ApplicationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Добавьте расписание в список полей формы
         self.fields['schedule'].queryset = Schedule.objects.all()
-
-    
-
-
 
 class ScheduleForm(forms.ModelForm):
     class Meta:
