@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from .models import Application, Review, Schedule
-# from .forms import PracticeForm, ApplicationForm, ReviewModelForm
+# from .forms import ApplicationForm, ReviewModelForm
 from django.db.models import Q, Count, Sum, F
 # Импорт миксинов для проверки прав
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
