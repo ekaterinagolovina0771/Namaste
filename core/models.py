@@ -44,6 +44,7 @@ class Application(models.Model):
         ("confirmed", "Подтвержденная"),
         ("completed", "Завершеная"),
         ("canceled", "Отмененая"),
+        ( "reserve", "Резерв")
     )
 
     name = models.CharField(max_length=100, verbose_name="Имя")

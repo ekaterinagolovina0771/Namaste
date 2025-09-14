@@ -21,6 +21,8 @@
         <label><input type="checkbox" name="status_confirmed" {% if request.GET.status_confirmed %}checked{% endif %}> Подтвержденная</label>
         <label><input type="checkbox" name="status_completed" {% if request.GET.status_completed %}checked{% endif %}> Завершенная</label>
         <label><input type="checkbox" name="status_canceled" {% if request.GET.status_canceled %}checked{% endif %}> Отмененная</label>
+        <label><input type="checkbox" name="status_reserved" {% if request.GET.status_reserved %}checked{% endif %}> Резерв</label>
+
     </fieldset>
 
     <fieldset class="options">
