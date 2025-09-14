@@ -1,10 +1,12 @@
         <div class="flex-card">
-            <h2>ID записи: {{ application.id }}</h2>
+            <h2>ID заявки: {{ application.id }}</h2>
             <p>Имя: {{ application.name }}</p>
-
-            <p>Статус записи: <span class="{{ application.status }}">{{ application.get_status_display }}</span></p>
+            <p>Телефон: {{ application.phone }}</p>
+            <p>Комментарий: {{ application.comment }}</p>
+            <p>Дата и время тренировки: {{ application.schedule }}</p>
+            <p>Статус заявки: <span class="{{ application.status }}">{{ application.get_status_display }}</span></p>
             <div class="card-actions">
-                <a href="{% url 'application_detail' application.id %}" class="btn btn-icon" title="Детали">
+                <a href="{% url 'application' application.id %}" class="btn btn-icon" title="Детали">
                     <i class="bi bi-eye"></i>
                 </a>
                 <a href="{% url 'application-update' application.id %}" class="btn btn-icon" title="Редактировать">

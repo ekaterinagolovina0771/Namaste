@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}   
-<h1>Список записей</h1>
+<h1>Список заявок</h1>
 
 <form action="" method="get" class="search-form">
     <fieldset class="fieldset-highlight">
         <legend>Поиск</legend>
-        <input type="text" name="q" placeholder="Поиск по записи" value="{{ request.GET.q }}">
+        <input type="text" name="q" placeholder="Поиск по заявке" value="{{ request.GET.q }}">
     </fieldset>
 
     <fieldset class="options">
@@ -16,11 +16,11 @@
     </fieldset>
 
     <fieldset class="options">
-        <legend>Статус записи</legend>
+        <legend>Статусы заявок</legend>
         <label><input type="checkbox" name="status_new" {% if request.GET.status_new or 'q' not in request.GET %}checked{% endif %}> Новая</label>
         <label><input type="checkbox" name="status_confirmed" {% if request.GET.status_confirmed %}checked{% endif %}> Подтвержденная</label>
-        <label><input type="checkbox" name="status_completed" {% if request.GET.status_completed %}checked{% endif %}> Завершенная</label>
-        <label><input type="checkbox" name="status_canceled" {% if request.GET.status_canceled %}checked{% endif %}> Отмененная</label>
+        <label><input type="checkbox" name="status_completed" {% if request.GET.status_completed %}checked{% endif %}> Завершена</label>
+        <label><input type="checkbox" name="status_canceled" {% if request.GET.status_canceled %}checked{% endif %}> Отменена</label>
         <label><input type="checkbox" name="status_reserved" {% if request.GET.status_reserved %}checked{% endif %}> Резерв</label>
 
     </fieldset>
@@ -35,19 +35,18 @@
 </form>
 
 
-    <div class="flex-container">
-        {% comment %} Проверка на пустую коллекцию empty{% endcomment %}
-        {% for application in applications %}
-        {% include "include_application_card.html" %}
-        {% endfor %}
-    </div>
+<div class="flex-container">
+    {% for application in applications %}
+        {% include "include_application_card.html" with application=application %}
+    {% endfor %}
+</div>
 
     {% comment %} Пагинатор BS5 
     Не активная страница   <li class="page-item"><a class="page-link" href="#">2</a></li>
-    Активная страница
+    Активная страница 
     <li class="page-item active" aria-current="page">
-            <span class="page-link">1</span>
-    {% endcomment %}
+            <span class="page-link">1</span>{% endcomment %}
+
 
     {% comment %} Проверим есть ли другие страницы {% endcomment %}
     {% if page_obj.has_other_pages %}
@@ -69,3 +68,5 @@
     {% endif %}
 
 {% endblock content %} 
+
+

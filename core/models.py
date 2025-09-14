@@ -11,14 +11,14 @@ class Schedule(models.Model):
         return f"{self.date} {self.start_time}"
     class Meta:
         verbose_name = "Расписание"
-        verbose_name_plural = "Расписание"
+
 
 class Application(models.Model):
     STATUS_CHOICES = (
         ("new", "Новая"),
         ("confirmed", "Подтвержденная"),
-        ("completed", "Завершеная"),
-        ("canceled", "Отмененая"),
+        ("completed", "Завершенная"),
+        ("canceled", "Отмененная"),
         ( "reserve", "Резерв")
     )
 

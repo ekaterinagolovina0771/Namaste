@@ -92,3 +92,291 @@ card-body {
     .card-body p {
         color: #066d47; /* Updated font color to dark green */
     }
+
+/* Стили для статусов заявок */
+.new {
+  color: #2e1a94;
+  font-weight: bold;
+}
+
+.confirmed {
+  color: #0e8b60;
+  font-weight: bold;
+}
+
+.completed {
+  color: #8e44ad;
+  font-weight: bold;
+}
+
+.canceled {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.reserved {
+  color: #f1f50f;
+  font-weight: bold;
+}
+
+/* Форма поиска */
+.search-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.search-form fieldset {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 0;
+  min-width: 200px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-form .fieldset-highlight {
+  border-color: var(--brand-gold) !important;
+  border-width: 2px;
+}
+
+.search-form legend {
+  font-weight: bold;
+  color: var(--brand-sepia);
+  padding: 0 5px;
+  font-family: var(--font-family-heading);
+}
+
+.search-form input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.search-form .options label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+
+.search-form .options input {
+  margin-right: 5px;
+}
+
+.search-form button {
+  background-color: var(--brand-gold);
+  color: #066d47;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border-color: #066d47;
+  cursor: pointer;
+  align-self: center;
+  height: fit-content;
+  font-weight: 600;
+}
+
+.search-form button:hover {
+  background-color: var(--brand-sepia);
+}
+
+/* Flex контейнеры для карточек */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.flex-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(20% - 20px); /* Adjust the width to accommodate the gap */
+  height: 400px; /* Set a fixed height for all cards */
+  transition: transform 0.3s ease;
+  border: 1px solid var(--brand-gold);
+  margin-bottom: 20px; /* Add margin-bottom to create space between rows */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.flex-card > * {
+  flex: 1 0 auto; /* Allow content to expand within the card */
+}
+
+.flex-card:hover {
+  transform: translateY(-5px);
+}
+
+.flex-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--brand-sepia);
+  transition: color 0.3s ease;
+}
+
+.btn-icon:hover {
+  color: var(--brand-gold);
+}
+
+.flex-card h2 {
+  margin-top: 0;
+  color: var(--brand-sepia);
+  border-bottom: 2px solid var(--brand-gold);
+  padding-bottom: 10px;
+  font-family: var(--font-family-heading);
+}
+
+.flex-card p {
+  margin: 10px 0;
+}
+
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.service {
+  background-color: var(--brand-gold);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.btn-submit {
+  background-color: var(--brand-gold);
+  color: rgb(138, 7, 7);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: center;
+  height: fit-content;
+  font-weight: 600;
+}
+
+.row {
+    display: flex;
+    flex-basis: 100%;
+}
+
+.row:nth-child(2n+1) {
+    justify-content: center;
+}
+
+.row:nth-child(2n) {
+    justify-content: flex-end;
+}
+
+.flex-container > .flex-card:nth-last-child(-n+4) {
+    margin-bottom: 0; /* Remove margin-bottom for the last row */
+}
+
+/* Custom Pagination Styles - Green Theme for BS5 */
+
+/* Default state for pagination links */
+.pagination > .page-item > .page-link {
+  color: var(--brand-green);
+}
+
+/* Hover state for pagination links */
+.pagination > .page-item > .page-link:hover {
+  color: var(--brand-green);
+  background-color: #e9ecef; /* Standard BS hover color */
+}
+
+/* Active state for pagination links */
+.pagination > .page-item.active > .page-link,
+.pagination > .page-item.active > .page-link:hover,
+.pagination > .page-item.active > .page-link:focus {
+  background-color: #69ad89;
+  border-color: var(--brand-green);
+  color: var(--brand-green);
+  
+  z-index: 3;
+}
+
+/* Focus state for pagination links */
+.pagination > .page-item > .page-link:focus {
+  box-shadow: 0 0 0 0.25rem rgba(15, 81, 50, 0.25); /* RGB for --brand-green */
+}
+
+/* Disabled state for pagination links */
+.pagination > .page-item.disabled > .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+
+/* Карточки */
+.card {
+  border: 2px solid var(--brand-green);
+  box-shadow: 0 4px 12px rgba(99, 57, 16, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  color: #066d47
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(99, 57, 16, 0.523);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.card-title {
+  color: #066d47;
+  text-align: center;
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+}
+
+.card-footer {
+  background-color: var(--brand-green);
+  border-top: none;
+  color: #066d47;
+  font-weight: bold;
+}
