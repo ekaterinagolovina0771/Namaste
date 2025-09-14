@@ -1,9 +1,10 @@
 # core/views.py
-from .forms import ReviewModelForm, ApplicationForm
+from .forms import ReviewModelForm, ApplicationForm, ScheduleForm
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse, HttpResponseNotAllowed
+from django.core.exceptions import ValidationError
 from django.contrib import messages
-from .models import Coach, Practice, Application, Review
+from .models import Coach, Practice, Application, Review, Schedule
 # from .forms import PracticeForm, ApplicationForm, ReviewModelForm
 from django.db.models import Q, Count, Sum, F
 # Импорт миксинов для проверки прав
@@ -60,6 +61,11 @@ class ThanksTemplateView(TemplateView):
                 context["message"] = (
                     "Ваш отзыв принят и отправлен на модерацию. После проверки он появится на сайте."
                 )
+            elif source == "schedule-create":
+                context["title"] = "Спасибо!"
+                context["message"] = (
+                    "Тренировка назначена"
+                )
 
         else:
             context["title"] = "Спасибо!"
@@ -80,3 +86,7 @@ class ApplicationCreateView(CreateView):
     template_name = "application_class_form.html"
     success_url = reverse_lazy("thanks", kwargs={"source": "application-create"})
    
+class ScheduleСreateView(CreateView):
+    form_class = ScheduleForm
+    template_name = "schedule_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "schedule-create"})

@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from datetime import time
 
 class Coach(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
@@ -42,6 +44,7 @@ class Application(models.Model):
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
     appointment_date = models.DateField(null=True, blank=True, verbose_name="Дата записи")
     appointment_time = models.TimeField(null=True, blank=True, verbose_name="Время записи")
+    
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
@@ -95,3 +98,14 @@ class Review(models.Model):
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+
+
+class Schedule(models.Model):
+    date = models.DateField(default=timezone.now)
+    start_time = models.TimeField(default=time(9, 0))
+    location = models.CharField(blank=True, null=True, max_length=255)
+
+    class Meta:
+        verbose_name = "Расписание"
+        verbose_name_plural = "Расписание"
+

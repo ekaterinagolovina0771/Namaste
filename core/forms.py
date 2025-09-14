@@ -1,5 +1,5 @@
 from django import forms
-from .models import Coach, Practice, Application, Review
+from .models import Coach, Practice, Application, Review, Schedule
 from django.utils import timezone
 from datetime import time
 
@@ -39,4 +39,14 @@ class ApplicationForm(forms.ModelForm):
             "appointment_time": forms.TimeInput(
                 attrs={"type": "time", "class": "form-control"}
             ),
+        }
+
+class ScheduleForm(forms.ModelForm):
+    class Meta:
+        model = Schedule
+        fields = ['date', 'start_time', 'location']
+        widgets = {
+            'date': forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+            'start_time': forms.TimeInput(attrs={'type': 'time', 'step': '300'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
         }

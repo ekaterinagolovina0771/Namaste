@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from core.views import LandingTemplateView, ReviewCreateView, ThanksTemplateView, СontraindicationsTemplateView, ReviewsListView, ApplicationCreateView
+from core.views import LandingTemplateView, ReviewCreateView, ThanksTemplateView, СontraindicationsTemplateView, ReviewsListView, ApplicationCreateView, ScheduleСreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,4 +22,6 @@ urlpatterns = [
     # path("contacts/", ContactsTemplateView.as_view(), name="contacts"),
     # path("instructor/", InstructorTemplateView.as_view(), name="instructor"),
     path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
+    path('schedule-create/', ScheduleСreateView.as_view(), name='schedule-create'),
+
 ]
