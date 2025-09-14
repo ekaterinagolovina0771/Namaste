@@ -28,6 +28,16 @@ class Practice(models.Model):
         verbose_name = 'Практика'
         verbose_name_plural = 'Практики'
 
+class Schedule(models.Model):
+    date = models.DateField(default=timezone.now)
+    start_time = models.TimeField(default=time(9, 0))
+
+    def __str__(self):
+        return f"{self.date} {self.start_time}"
+    class Meta:
+        verbose_name = "Расписание"
+        verbose_name_plural = "Расписание"
+
 class Application(models.Model):
     STATUS_CHOICES = (
         ("new", "Новая"),
@@ -42,8 +52,9 @@ class Application(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, default="new", max_length=20, verbose_name="Статус")
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name="Дата создания")
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
-    appointment_date = models.DateField(null=False, default=datetime.now, verbose_name="Дата записи")
-    appointment_time = models.TimeField(null=False, default=time(9, 0), verbose_name="Время записи")
+    schedule = models.ForeignKey(Schedule, blank=True, null=True, on_delete=models.CASCADE)
+
+    
 
 
     def __str__(self):
@@ -92,6 +103,9 @@ class Review(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
+
+
+
     def __str__(self):
         return f"{self.name} - {self.text}"
 
@@ -100,12 +114,5 @@ class Review(models.Model):
         verbose_name_plural = "Отзывы"
 
 
-class Schedule(models.Model):
-    date = models.DateField(default=timezone.now)
-    start_time = models.TimeField(default=time(9, 0))
-    location = models.CharField(blank=True, null=True, max_length=255)
 
-    class Meta:
-        verbose_name = "Расписание"
-        verbose_name_plural = "Расписание"
 

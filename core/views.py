@@ -85,8 +85,38 @@ class ApplicationCreateView(CreateView):
     form_class = ApplicationForm
     template_name = "application_class_form.html"
     success_url = reverse_lazy("thanks", kwargs={"source": "application-create"})
-   
-class ScheduleСreateView(CreateView):
+
+    def form_valid(self, form):
+        # Получите расписание из формы
+        schedule = form.cleaned_data['schedule']
+
+        # Проверьте количество записей на расписание
+        if schedule.application_set.count() >= 10:
+            # Если достигнуто максимальное количество записей, отобразите сообщение об ошибке
+            form.add_error('schedule', 'Все гамаки на это время заняты. Вы можете записаться в резерв или выбрать другое удобное для Вас время.')
+            return self.form_invalid(form)
+        
+        # Если есть свободные места, продолжайте обработку формы
+        form.instance.schedule = schedule
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['initial'] = {'schedule': self.get_initial_schedule()}
+        return kwargs
+
+    def get_initial_schedule(self):
+        # Получите расписание для выбора клиентом
+        schedule = Schedule.objects.first()  # Замените на вашу логику получения расписания
+        return schedule.pk
+
+    def get_selected_schedule(self):
+        # Получите выбранное расписание из формы
+        schedule_id = self.request.POST.get('schedule')
+        schedule = Schedule.objects.get(pk=schedule_id)
+        return schedule
+
+class ScheduleCreateView(CreateView):
     form_class = ScheduleForm
     template_name = "schedule_class_form.html"
     success_url = reverse_lazy("thanks", kwargs={"source": "schedule-create"})
