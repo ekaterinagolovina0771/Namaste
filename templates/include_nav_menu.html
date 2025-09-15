@@ -16,6 +16,26 @@
                     </li>
                 {% endfor %}
             </ul>
+            {% comment %} <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    {% for item in staff_menu %}
+                         <li class="nav-item">
+                            <a class="nav-link" href="{{ item.url }}">
+                                <i class="bi {{ item.icon_class }}"></i> {{ item.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right"></i> Вход
+                        </a>
+                    </li>
+                {% endif %}
+            </ul> {% endcomment %}
         </div>
     </div>
 </nav>
+
+
+

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}   
+<h1>Практики</h1>
+
+<form action="" method="get" class="search-form">
+    <fieldset class="fieldset-highlight">
+        <legend>Поиск</legend>
+        <input type="text" name="q" placeholder="Поиск по заявке" value="{{ request.GET.q }}">
+    </fieldset>
+
+    {% comment %} <fieldset class="options">
+        <legend>Статусы заявок</legend>
+        <label><input type="checkbox" name="status_new" {% if request.GET.status_new or 'q' not in request.GET %}checked{% endif %}> Новая</label>
+        <label><input type="checkbox" name="status_confirmed" {% if request.GET.status_confirmed %}checked{% endif %}> Подтвержденная</label>
+        <label><input type="checkbox" name="status_completed" {% if request.GET.status_completed %}checked{% endif %}> Завершена</label>
+        <label><input type="checkbox" name="status_canceled" {% if request.GET.status_canceled %}checked{% endif %}> Отменена</label>
+        <label><input type="checkbox" name="status_reserved" {% if request.GET.status_reserved %}checked{% endif %}> Резерв</label>
+
+    </fieldset> {% endcomment %}
+
+    <fieldset class="options">
+        <legend>Порядок сортировки</legend>
+        <label><input type="radio" name="order_by_date" value="desc" {% if request.GET.order_by_date == 'desc' or 'q' not in request.GET %}checked{% endif %}> По убыванию даты</label>
+        <label><input type="radio" name="order_by_date" value="asc" {% if request.GET.order_by_date == 'asc' %}checked{% endif %}> По возрастанию даты</label>
+    </fieldset>
+
+    <button type="submit">Найти</button>
+</form>
+
+<div class="flex-container">
+    {% for schedule in schedules %}
+        <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow-sm">
+                    <div class="row">
+                        <h2 class="card-title h4 mb-0">Практика #{{ schedule.id }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">Дата</div>
+                            <div class="col-sm-8">{{ schedule.date }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">Время</div>
+                            <div class="col-sm-8">{{ schedule.start_time }}</div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light">
+                        {% comment %} <div class="text-center mt-4">
+                            <a href="{% url 'schedule-update' schedule.id %}" class="btn btn-btn-success">
+                             <i class="bi bi-pencil-square"></i> Редактировать
+                            </a>
+                        </div> {% endcomment %}
+                        <div class="text-center mt-4">
+                            <a href="{% url 'schedule-create' %}" class="btn btn-s">
+                                <i class="bi bi-arrow-left"></i> Назначить практику
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+    {% comment %} Проверим есть ли другие страницы {% endcomment %}
+    {% if page_obj.has_other_pages %}
+        <nav aria-label="...">
+            <ul class="pagination pagination-lg justify-content-center">
+                {% comment %} Открываю цикл шаблонизатора {% endcomment %}
+                {% for page in page_obj.paginator.page_range %}
+                {% comment %} Проверяем на текущую страницу {% endcomment %}
+                {% if page == page_obj.number %}
+                   <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                {% else %}
+                   <li class="page-item"><a class="page-link" href="?{% if get_params %}{{ get_params }}&{% endif %}page={{ page }}">{{ page }}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
+
+{% endblock content %} 
+

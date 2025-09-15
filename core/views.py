@@ -35,7 +35,7 @@ class ApplicationsListView(ListView):
     template_name = "applications_list.html"
     context_object_name = "applications"
     # Помещает объект с назваем page_obj в контекст шаблона
-    paginate_by = 5
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -123,6 +123,39 @@ class SchedulesListView(ListView):
     model = Schedule
     template_name = "schedule_list.html"
     context_object_name = "schedules"
+    # Помещает объект с назваем page_obj в контекст шаблона
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Получаю из GET запроса все данные URL
+        # ПОИСКОВАЯ ФОРМА
+        search_query = self.request.GET.get("q", "")
+        # ЧЕКБОКСЫ выборки по полям
+        # 1. поиск по дате - search_by_date
+
+        checkbox_date = self.request.GET.get("search_by_date", "")
+
+        # РАДИОКНОПКА Порядок сортировки по дате
+        # order_by_date - desc, asc
+        order_by_date = self.request.GET.get("order_by_date", "desc")
+
+        # 1. Создаем Q-объект для текстового поиска
+        search_q = Q()
+        if search_query:
+            # Внутренние условия поиска объединяем через ИЛИ (|=)
+            if checkbox_date:
+                search_q |= Q(date__icontains=search_query)
+
+
+        # Порядок сортировки
+        ordering = "-date" if order_by_date == "desc" else "date"
+
+        # 3. Объединяем два Q-объекта через И (&)
+        # Это гарантирует, что запись должна соответствовать И условиям поиска, И условиям статуса
+        schedules = (queryset.filter(search_q).order_by(ordering))
+
+        return schedules
 
 
 class ApplicationDetailView(DetailView):
@@ -141,6 +174,11 @@ class ScheduleUpdateView(UpdateView):
     model = Schedule
     form_class = ScheduleForm
     template_name = "schedule_form.html"
+    success_url = reverse_lazy("schedules")
+
+class ScheduleDeleteView(DeleteView):
+    model = Schedule
+    template_name = "schedule_delete.html"
     success_url = reverse_lazy("schedules")
 
 
