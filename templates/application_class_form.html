@@ -3,11 +3,12 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
+
         <div class="col-md-8">
+            <div class="row">
+                <h1>Ваша запись</h1>
+            </div>
             <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">{{ operation_type }}</h3>
-                </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}

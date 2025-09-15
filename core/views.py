@@ -1,4 +1,5 @@
 # core/views.py
+from django.forms import BaseModelForm
 from .forms import ReviewModelForm, ApplicationForm, ScheduleForm
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponseNotAllowed
@@ -144,12 +145,23 @@ class ScheduleUpdateView(UpdateView):
 
 
 
-class ApplicationUpdateView(UpdateView):
+class ApplicationUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "core.change_application"
     model = Application
     form_class = ApplicationForm
     template_name = "application_class_form.html"
     success_url = reverse_lazy("applications")
+    success_message = "Запись успешно обновлена!"
+    pk_url_kwarg = "application_id"
 
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Редактирование записи"
+        return context
 
 
 class ReviewCreateView(CreateView):

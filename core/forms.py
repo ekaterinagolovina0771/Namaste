@@ -7,12 +7,11 @@ from datetime import time
 class ReviewModelForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ["name", "text", "rating", "photo"]
+        fields = ["name", "text", "rating"]
         widgets = {
-            "text": forms.Textarea(attrs={"class": "form-control"}),
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "rating": forms.Select(attrs={"class": "form-control"}),
-            "photo": forms.FileInput(attrs={"class": "form-control"}),
+            "text": forms.Textarea(attrs={"placeholder": "Ваш отзыв", "class": "form-control"}),
+            "name": forms.TextInput(attrs={"placeholder": "Ваше имя", "class": "form-control"}),
+            "rating": forms.Select(attrs={"placeholder": "Ваша оценка", "class": "form-control"}),
         }
 
 class ApplicationForm(forms.ModelForm):
