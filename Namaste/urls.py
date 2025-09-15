@@ -1,5 +1,9 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+import debug_toolbar
+from debug_toolbar.toolbar import debug_toolbar_urls
 from core.views import LandingTemplateView, СontraindicationsTemplateView, ApplicationCreateView, ApplicationsListView, ApplicationDetailView, ApplicationUpdateView, ReviewCreateView, ThanksTemplateView, СontraindicationsTemplateView, ReviewsListView, ScheduleCreateView, SchedulesListView, ScheduleUpdateView, ScheduleDeleteView
 
 urlpatterns = [
@@ -17,9 +21,14 @@ urlpatterns = [
     path('schedule/<int:schedule_id>//', ScheduleUpdateView.as_view(), name='schedule-update'),
     path('schedule/delete/<int:schedule_id>//', ScheduleDeleteView.as_view(), name='schedule-delete'),
     path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
-
-
-
-
-
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
+
+# Добавляем Статику и Медиа ЕСЛИ в режиме разработки
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]
+    )
+    # Подключим Django Debug  Toolbar
+
