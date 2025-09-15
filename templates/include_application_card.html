@@ -3,7 +3,12 @@
             <p>Имя: {{ application.name }}</p>
             <p>Телефон: {{ application.phone }}</p>
             <p>Комментарий: {{ application.comment }}</p>
-            <p>Дата и время тренировки: {{ application.schedule }}</p>
+            <div class="schedules">
+                {% comment %} цикл для расписания {% endcomment %}
+                {% for schedule  in application.schedule.all  %}
+                <span class="schedule">Время и дата практики: {{ schedule.date }}</span>
+                {% endfor %}
+            </div>
             <p>Статус заявки: <span class="{{ application.status }}">{{ application.get_status_display }}</span></p>
             <div class="card-actions">
                 <a href="{% url 'application' application.id %}" class="btn btn-icon" title="Детали">

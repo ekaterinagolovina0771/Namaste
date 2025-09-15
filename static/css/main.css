@@ -380,3 +380,19 @@ card-body {
   color: #066d47;
   font-weight: bold;
 }
+
+.schedule {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.schedules {
+  background-color: var(--brand-gold);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
