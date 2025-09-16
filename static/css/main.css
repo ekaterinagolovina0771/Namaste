@@ -396,3 +396,31 @@ card-body {
   font-size: 0.9em;
   font-weight: 500;
 }
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  section {
+    padding: 2rem 0;
+  }
+
+  #reviewsCarousel {
+    min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
+  }
+
+  #reviewsCarousel .carousel-inner {
+    min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
+  }
+
+  #reviewsCarousel .carousel-item {
+    min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
+    font-size: 1rem; /* Корректируем размер шрифта для мобильных устройств */
+  }
+}
