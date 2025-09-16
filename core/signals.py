@@ -1,8 +1,44 @@
 # signals.py
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Review
+from .models import Review, Application
 from .mistral import is_bad_review
+from .telegram_bot import send_telegram_message
+from django.conf import settings
+import asyncio
+
+api_key = settings.TELEGRAM_BOT_API_KEY
+user_id = settings.TELEGRAM_USER_ID
+
+@receiver(m2m_changed, sender=Application.schedule.through)
+def notify_telegram_on_order_create(sender, instance, action, **kwargs):
+    """
+    Обработчик сигнала m2m_changed для модели Application.
+    Он обрабатывает добавление КАЖДОЙ услуги в запись на консультацию.
+    """
+    try:
+        # action - post_add - Добавление записи в таблицу многие ко многим
+        # kwargs.get('pk_set') - список первичных ключей добавленных записей - создается только при добавлении записи в таблицу 
+        if action == 'post_add' and kwargs.get('pk_set'):
+            list_schedules = [schedule.date for schedule in instance.schedules.all()]
+            # appointment_date = instance.appointment_date.strftime("%d.%m.%Y") if instance.appointment_date else "Не указана"
+            tg_markdown_message = f"""
+
+====== *Новая запись!* ======
+**Имя:** {instance.name}
+**Телефон:** {instance.phone}
+**Дата записи:** {', '.join([schedule.date for schedule in instance.schedules.all()])}
+**Время записи:** {', '.join([schedule.start_time for schedule in instance.schedules.all()])}
+**Комментарий:** {instance.comment}
+
+**Подробнее:** http://127.0.0.1:8000/admin/core/application/{instance.id}/change/
+
+#запись
+
+"""
+            asyncio.run(send_telegram_message(api_key, user_id, tg_markdown_message))
+    except Exception as e:
+        print(f"Ошибка отправки сообщения в Telegram: {e}")
 
 
 @receiver(post_save, sender=Review)
@@ -25,5 +61,3 @@ def ai_validate_process_review(sender, instance, created, **kwargs):
 
         finally:
             instance.save()
-        
-
