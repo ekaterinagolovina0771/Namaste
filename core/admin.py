@@ -117,30 +117,10 @@ class ReviewAdmin(admin.ModelAdmin):
         ),
     )
 
-    # Кастомное действие - отметить заявки как completed - Завершена
-    @admin.action(description="Отметить как новые")
-    def mark_new(self, request, queryset):
-        queryset.update(status="new")
-
-    @admin.action(description="Отметить как на модерации")
-    def mark_ai_moderating(self, request, queryset):
-        queryset.update(status="ai_moderating")
-
-    @admin.action(description="Отметить как одобренные")
-    def mark_ai_approved(self, request, queryset):
-        queryset.update(status="ai_approved")
-
-    @admin.action(description="Отметить как отклоненные")
-    def mark_ai_rejected(self, request, queryset):
-        queryset.update(status="ai_rejected")
-
-    @admin.action(description="Отметить как опубликованные")
-    def mark_published(self, request, queryset):
+    @admin.action(description="Опубликовать отзыв")
+    def check_published(self, request, queryset):
         queryset.update(status="published")
-
-    @admin.action(description="Отметить как архивные")
-    def mark_archived(self, request, queryset):
-        queryset.update(status="archived")
+    
 
 
 @admin.register(Schedule)
@@ -160,4 +140,7 @@ class ScheduleAdmin(admin.ModelAdmin):
 
     # Сколько записей на странице
     list_per_page = 30
+
+
+
 
