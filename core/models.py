@@ -63,9 +63,6 @@ class Review(models.Model):
     rating = models.PositiveSmallIntegerField(
         choices=RATING_CHOICES, verbose_name="Рейтинг", default=5
     )
-    photo = models.ImageField(
-        upload_to="reviews/", blank=True, null=True, verbose_name="Фото"
-    )
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default="new", verbose_name="Статус"
     )
