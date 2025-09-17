@@ -21,19 +21,34 @@ from django.views.generic import (
     DeleteView,
     TemplateView,
 )
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
-def get_schedule_by_coach(request, coach_id):
-    coach = Coach.objects.prefetch_related("schedules").get(id=coach_id)
-    schedules = coach.schedules.all()
+class AjaxCoachSchedulesView(View):
+    """
+    Вью для отдачи массива объектов практик по ID инструктора.
+    Обслуживает AJAX запросы формы создания заказа.
+    """
+    def get(self, request, coach_id):
+        coach = Coach.objects.prefetch_related("schedules").get(id=coach_id)
+        schedules = coach.schedules.all()
 
-    schedules_data = [{"id": schedule.id, "name": schedule.name} for schedule in schedules]
+        schedules_data = [{"id": schedule.id, "name": schedule.name} for schedule in schedules]
 
-    return JsonResponse({"services": schedules_data})
+        return JsonResponse({"schedules": schedules_data})
 
 
 class LandingTemplateView(TemplateView):
+    """Классовая view для главной страницы"""
+
     template_name = "landing.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["coaches"] = Coach.objects.prefetch_related("schedules")
+        context["schedules"] = Schedule.objects.all()
+        context["reviews"] = Review.objects.all()
+
+        return context
 
 class СontraindicationsTemplateView(TemplateView):
     template_name = "contraindications.html"

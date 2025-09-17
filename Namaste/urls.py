@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
 from debug_toolbar.toolbar import debug_toolbar_urls
-from core.views import (LandingTemplateView, СontraindicationsTemplateView, ApplicationCreateView, ApplicationsListView, ApplicationDetailView, ApplicationUpdateView, ReviewCreateView, ThanksTemplateView, СontraindicationsTemplateView, ReviewsListView, ScheduleCreateView, SchedulesListView, ScheduleUpdateView, ScheduleDeleteView, get_schedule_by_coach)
+from core.views import (LandingTemplateView, СontraindicationsTemplateView, ApplicationCreateView, ApplicationsListView, ApplicationDetailView, ApplicationUpdateView, ReviewCreateView, ThanksTemplateView, СontraindicationsTemplateView, ReviewsListView, ScheduleCreateView, SchedulesListView, ScheduleUpdateView, ScheduleDeleteView, AjaxCoachSchedulesView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,7 +23,7 @@ urlpatterns = [
     path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
     path('__debug__/', include(debug_toolbar.urls)),
         # AJAX вью для отдачи массива объектов услуг по ID мастера
-    path("ajax/schedules/<int:coach_id>/", get_schedule_by_coach, name="get_schedule_by_coach"),
+    path("ajax/schedules/<int:coach_id>/", AjaxCoachSchedulesView.as_view(), name="get_schedule_by_coach"),
 ]
 
 # Добавляем Статику и Медиа ЕСЛИ в режиме разработки
