@@ -3,7 +3,6 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-
         <div class="col-md-8">
             <div class="row">
                 <h1>Ваша запись</h1>
@@ -20,11 +19,29 @@
                         {% for error in field.errors %}
                             <div class="alert alert-danger mt-1">{{ error }}</div>
                         {% endfor %}
+                            {% comment %} Если поле services то мы заходим в рендер чекбоксов услуг {% endcomment %}
+                            {% if field.name == 'schedules' %}
+                            <div class="mb-3">
+                                <label class="form-label">{{ field.label }}</label>
+                                <div id="schedules-container" class="row">
+                                    {% for choice in form.schedules %}
+                                        <div class="col-6 form-check">
+                                            {{ choice.tag }}
+                                            <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                                {{ choice.choice_label }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% else %}
                             <div class="mb-3">
                                 {{ field.label_tag }}
                                 {{ field }}
                                 {% if field.help_text %}
                                     <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+
                                 {% endif %}
                             </div>
                         {% endfor %}

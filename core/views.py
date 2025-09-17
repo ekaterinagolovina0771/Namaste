@@ -5,7 +5,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.core.exceptions import ValidationError
 from django.contrib import messages
-from .models import Application, Review, Schedule
+from .models import Application, Review, Schedule, Coach
 # from .forms import ApplicationForm, ReviewModelForm
 from django.db.models import Q, Count, Sum, F
 # Импорт миксинов для проверки прав
@@ -22,6 +22,14 @@ from django.views.generic import (
     TemplateView,
 )
 from django.urls import reverse_lazy
+
+def get_schedule_by_coach(request, coach_id):
+    coach = Coach.objects.prefetch_related("schedules").get(id=coach_id)
+    schedules = coach.schedules.all()
+
+    schedules_data = [{"id": schedule.id, "name": schedule.name} for schedule in schedules]
+
+    return JsonResponse({"services": schedules_data})
 
 
 class LandingTemplateView(TemplateView):

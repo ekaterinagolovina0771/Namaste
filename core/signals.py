@@ -1,5 +1,5 @@
 # signals.py
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from .models import Review, Application
 from .mistral import is_bad_review
@@ -27,8 +27,8 @@ def notify_telegram_on_order_create(sender, instance, action, **kwargs):
 ====== *Новая запись!* ======
 **Имя:** {instance.name}
 **Телефон:** {instance.phone}
-**Дата записи:** {', '.join([schedule.date for schedule in instance.schedules.all()])}
-**Время записи:** {', '.join([schedule.start_time for schedule in instance.schedules.all()])}
+**Инструктор:** {instance.coach.name}
+**Дата записи:** {', '.join(list_schedules)}
 **Комментарий:** {instance.comment}
 
 **Подробнее:** http://127.0.0.1:8000/admin/core/application/{instance.id}/change/
