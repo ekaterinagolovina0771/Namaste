@@ -14,28 +14,32 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">ID записи</div>
+                        <div class="col-sm-4 text-muted">ID записи:</div>
                         <div class="col-sm-8">{{ application.id }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">Имя клиента</div>
+                        <div class="col-sm-4 text-muted">Имя клиента:</div>
                         <div class="col-sm-8">{{ application.name }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">Телефон</div>
+                        <div class="col-sm-4 text-muted">Телефон:</div>
                         <div class="col-sm-8">{{ application.phone }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">Статус записи</div>
+                        <div class="col-sm-4 text-muted">Статус записи:</div>
                         <div class="col-sm-8"><span>{{ application.get_status_display }}</span></div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">Время и дата записи</div>
-                        <div class="col-sm-8"><span>{{ application.schedule }}</span></div>
+                        {% for schedule  in application.schedules.all  %}
+                        <div class="col-sm-4 text-muted">Дата практики:</div>
+                        <div class="col-sm-8"><span>{{ schedule.date }}</span></div>
+                        <div class="col-sm-4 text-muted">Время практики:</div>
+                        <div class="col-sm-8"><span>{{ schedule.start_time }}</span></div>
+                        {% endfor %}
                     </div>
                     {% if application.comment %}
                         <div class="row mb-3">
-                            <div class="col-sm-4 text-muted">Комментарий</div>
+                            <div class="col-sm-4 text-muted">Комментарий:</div>
                             <div class="col-sm-8">{{ application.comment }}</div>
                         </div>
                     {% endif %}

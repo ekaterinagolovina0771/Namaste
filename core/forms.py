@@ -42,7 +42,7 @@ class ScheduleForm(forms.ModelForm):
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ["name", "phone", "coach", "comment", "appointment_date", "schedules"]
+        fields = ["name", "phone", "coach", "comment", "schedules"]
         widgets = {
             "name": forms.TextInput(
                 attrs={"placeholder": "Ваше имя", "class": "form-control"}
@@ -58,19 +58,16 @@ class ApplicationForm(forms.ModelForm):
                     "rows": 3,
                 }
             ),
-            "appointment_date": forms.DateInput(
-                attrs={"type": "date", "class": "form-control"}
-            ),
-            "schedules": forms.CheckboxSelectMultiple(
+             "schedules": forms.CheckboxSelectMultiple(
                 attrs={"class": "form-check-input"}
             ),
         }
 
-    def clean_appointment_date(self):
-        appointment_date = self.cleaned_data.get("appointment_date")
-        if appointment_date and appointment_date < timezone.now().date():
-            raise forms.ValidationError("Дата записи не может быть в прошлом.")
-        return appointment_date
+    # def clean_appointment_date(self):
+    #     appointment_date = self.cleaned_data.get("appointment_date")
+    #     if appointment_date and appointment_date < timezone.now().date():
+    #         raise forms.ValidationError("Дата записи не может быть в прошлом.")
+    #     return appointment_date
 
 
     def clean_schedules(self):

@@ -47,14 +47,9 @@
                         </div>
                     </div>
                     <div class="card-footer bg-light">
-                        {% comment %} <div class="text-center mt-4">
+                        <div class="text-center mt-4">
                             <a href="{% url 'schedule-update' schedule.id %}" class="btn btn-btn-success">
                              <i class="bi bi-pencil-square"></i> Редактировать
-                            </a>
-                        </div> {% endcomment %}
-                        <div class="text-center mt-4">
-                            <a href="{% url 'schedule-create' %}" class="btn btn-s">
-                                <i class="bi bi-arrow-left"></i> Назначить практику
                             </a>
                         </div>
                     </div>
@@ -64,7 +59,10 @@
     {% endfor %}
 </div>
 
-
+<div class="text-center mt-4">
+    <a href="{% url 'schedule-create' %}" class="btn btn-success rounded-pill px-5 сentered-button">Назначить практику
+    </a>
+</div>
     {% comment %} Проверим есть ли другие страницы {% endcomment %}
     {% if page_obj.has_other_pages %}
         <nav aria-label="...">

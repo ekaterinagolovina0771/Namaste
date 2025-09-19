@@ -85,6 +85,22 @@
     </div>
 </section>
 
+{# Секция "Практики" #}
+<section id="schedules" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Предстоящие практики</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for schedule in schedules %}
+                {% include 'include_schedule_card.html' %}
+            {% empty %}
+                <div class="col-12">
+                    <p class="text-center text-muted">Назначенных практик нет.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 {# Секция "Записаться" (теперь просто ссылка) #}
 <section id="get-application" class="py-5 bg-light text-center">
     <div class="container">
@@ -93,6 +109,20 @@
         <a href="{% url 'application-create' %}" class="btn btn-success rounded-pill px-5 сentered-button">
             Перейти к форме записи
         </a>
+    </div>
+</section>
+
+{# Секция "Отзывы" #}
+<section id="reviews" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Отзывы</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for review in reviews %}
+                {% if review.status == 'published' %}
+                    {% include 'include_review_card.html' %}
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </section>
 

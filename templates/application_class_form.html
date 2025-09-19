@@ -19,7 +19,7 @@
                         {% for error in field.errors %}
                             <div class="alert alert-danger mt-1">{{ error }}</div>
                         {% endfor %}
-                            {% comment %} Если поле services то мы заходим в рендер чекбоксов услуг {% endcomment %}
+                            {% comment %} Если поле schedules то мы заходим в рендер чекбоксов практик {% endcomment %}
                             {% if field.name == 'schedules' %}
                             <div class="mb-3">
                                 <label class="form-label">{{ field.label }}</label>

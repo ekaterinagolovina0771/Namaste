@@ -1,0 +1,22 @@
+{% load static %}
+<div class="col">
+  <div class="card text-center h-100">
+    {% if coach.photo %}
+      <img src="{{ coach.photo.url }}"
+           class="rounded-circle mx-auto d-block mt-3" style="width:120px;height:120px;" alt="{{ coach.name }}">
+    {% else %}
+      <img src="{% static 'static/images/irina.JPG' %}"
+           class="rounded-circle mx-auto d-block mt-3" style="width:120px;height:120px;" alt="{{ coach.name }}">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ coach.name }}</h5>
+      <p class="card-text text-muted">Опыт: {{ coach.experience }} лет</p>
+      <p class="card-text text-muted">Предоставляет услуг: {{ coach.num_schedules }} </p>
+      <div>
+        {% for masters_service in coach.schedules.all %}
+          <i class="bi bi-scissors text-secondary" title="{{ masters_schedule.name }}"></i>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

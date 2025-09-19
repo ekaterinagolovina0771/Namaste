@@ -207,7 +207,7 @@ class ReviewsListView(ListView):
 
 class SchedulesListView(ListView):
     model = Schedule
-    template_name = "schedule_list.html"
+    template_name = "schedules_list.html"
     context_object_name = "schedules"
     # Помещает объект с назваем page_obj в контекст шаблона
     paginate_by = 20
@@ -314,12 +314,6 @@ class ApplicationUpdateView(PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["operation_type"] = "Редактирование записи"
         return context
-
-
-
-class SchedulesListView(LoginRequiredMixin, ListView):
-    model = Schedule
-    template_name = "schedules_list.html"
 
 
 

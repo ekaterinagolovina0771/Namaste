@@ -10,7 +10,7 @@ class Application(models.Model):
         ("canceled", "Отмененная"),
         ( "reserve", "Резерв")
     )
-
+    view_count = models.IntegerField(default=0)
     name = models.CharField(max_length=100, verbose_name="Имя")
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     comment = models.CharField(max_length=500, null=True, blank=True, verbose_name="Комментарий")
@@ -18,8 +18,6 @@ class Application(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name="Дата создания")
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
     coach = models.ForeignKey("Coach", on_delete=models.SET_NULL, null=True, verbose_name="Инструктор")
-    appointment_date = models.DateField(null=True, blank=True, verbose_name="Дата практики"
-    )
     schedules = models.ManyToManyField("Schedule", verbose_name="Практики",  default=None, related_name="applications")
 
     def __str__(self):

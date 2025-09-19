@@ -2,13 +2,11 @@
             <h2>ID заявки: {{ application.id }}</h2>
             <p>Имя: {{ application.name }}</p>
             <p>Телефон: {{ application.phone }}</p>
-            <p>Комментарий: {{ application.comment }}</p>
-            <div class="schedules">
                 {% comment %} цикл для расписания {% endcomment %}
-                {% for schedule  in application.schedule.all  %}
-                <span class="schedule">Время и дата практики: {{ schedule.date }}</span>
+                {% for schedule  in application.schedules.all  %}
+                <span class="schedule">Дата практики: {{ schedule.date }}</span>
+                <span class="schedule">Время практики: {{ schedule.start_time }}</span>
                 {% endfor %}
-            </div>
             <p>Статус заявки: <span class="{{ application.status }}">{{ application.get_status_display }}</span></p>
             <div class="card-actions">
                 <a href="{% url 'application' application.id %}" class="btn btn-icon" title="Детали">
