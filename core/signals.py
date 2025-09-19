@@ -10,7 +10,7 @@ import asyncio
 api_key = settings.TELEGRAM_BOT_API_KEY
 user_id = settings.TELEGRAM_USER_ID
 
-@receiver(m2m_changed, sender=Application.schedule.through)
+@receiver(m2m_changed, sender=Application.schedules.through)
 def notify_telegram_on_order_create(sender, instance, action, **kwargs):
     """
     Обработчик сигнала m2m_changed для модели Application.

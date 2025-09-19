@@ -6,11 +6,9 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from .models import Application, Review, Schedule, Coach
-# from .forms import ApplicationForm, ReviewModelForm
 from django.db.models import Q, Count, Sum, F
 # Импорт миксинов для проверки прав
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
-
 # Импорт классовых вью, View, TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 from django.views.generic import (
@@ -22,6 +20,17 @@ from django.views.generic import (
     TemplateView,
 )
 from django.urls import reverse_lazy, reverse
+
+
+class UserIsStuffPassedMixin(UserPassesTestMixin):
+    """
+    Миксин для проверки, является ли пользователь персоналом сайта
+    """
+    def test_func(self):
+        """
+        Метод от ответа которого будет зависеть доступ к вью
+        """
+        return self.request.user.is_staff
 
 class AjaxCoachSchedulesView(View):
     """
@@ -36,6 +45,12 @@ class AjaxCoachSchedulesView(View):
 
         return JsonResponse({"schedules": schedules_data})
 
+class ReviewCreateView(CreateView):
+    model = Review
+    form_class = ReviewModelForm
+    template_name = "review_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "review-create"})
+
 
 class LandingTemplateView(TemplateView):
     """Классовая view для главной страницы"""
@@ -44,9 +59,52 @@ class LandingTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["coaches"] = Coach.objects.prefetch_related("schedules")
+        context["coaches"] = Coach.objects.prefetch_related("schedules").annotate(
+            num_schedules=Count("schedules")
+        )
         context["schedules"] = Schedule.objects.all()
         context["reviews"] = Review.objects.all()
+
+        return context
+
+class ThanksTemplateView(TemplateView):
+    """
+    Классовая view для маршрута 'thanks/'
+    """
+
+    template_name = "thanks.html"
+
+    def get_context_data(self, **kwargs):
+        """
+        Расширение get_context_data для возможности передать в шаблон {{ title }} и {{ message }}.
+
+        Они будут разные, в зависимости от куда пришел человек.
+        Со страницы application/create/ с псевдонимом application-create
+        Или со страницы review/create/ с псевдонимом review-create
+        """
+        context = super().get_context_data(**kwargs)
+
+        if kwargs["source"]:
+            source = kwargs["source"]
+            if source == "application-create":
+                context["title"] = "Спасибо!"
+                context["message"] = (
+                    "Вы записаны! Мы напомним Вам о предстоящей тренировке."
+                )
+            elif source == "review-create":
+                context["title"] = "Спасибо за отзыв!"
+                context["message"] = (
+                    "Ваш отзыв принят и отправлен на модерацию. После проверки он появится на сайте."
+                )
+            elif source == "schedule-create":
+                context["title"] = "Спасибо!"
+                context["message"] = (
+                    "Тренировка назначена"
+                )
+
+        else:
+            context["title"] = "Спасибо!"
+            context["message"] = "Спасибо за ваше обращение!"
 
         return context
 
@@ -117,9 +175,14 @@ class ApplicationsListView(ListView):
 
         # 3. Объединяем два Q-объекта через И (&)
         # Это гарантирует, что запись должна соответствовать И условиям поиска, И условиям статуса
-        orders = (queryset.filter(search_q & status_q).order_by(ordering))
+        applications = (
+            queryset.prefetch_related("schedules")
+            .select_related("coach")
+            .filter(search_q & status_q)
+            .order_by(ordering)
+        )
 
-        return orders
+        return applications
     
     def get_context_data(self, **kwargs):
         """
@@ -180,32 +243,60 @@ class SchedulesListView(ListView):
 
         return schedules
 
-
 class ApplicationDetailView(DetailView):
     model = Application
     template_name = "application_detail.html"
     context_object_name = "application"
-    pk_url_kwarg = "application_id"
+    pk_url_kwarg = "application_id"  # Указываем, что id брать из URL kwarg 'application_id'
+
+    def get_queryset(self):
+        """
+        Лучшее место для "жадной" загрузки и аннотаций.
+        Этот метод подготавливает оптимизированный QuerySet.
+        """
+        queryset = super().get_queryset()
+        return (
+            queryset.select_related("coach")
+            .prefetch_related("schedules")
+            .annotate(total_price=Sum("schedules__price"))
+        )
 
     def get_object(self, queryset=None):
-        application_id = self.kwargs.get(self.pk_url_kwarg)
-        return get_object_or_404(Application, pk=application_id)
+        """
+        Лучшее место для логики, специфичной для одного объекта.
+        Например, для счетчика просмотров.
+        """
+        # Сначала получаем объект стандартным способом (он будет взят из queryset,
+        # который мы определили в get_queryset)
+        application = super().get_object(queryset)
 
+        # Теперь выполняем логику с сессией и счетчиком
+        session_key = f"application_{application.id}_viewed"
+        if not self.request.session.get(session_key):
+            self.request.session[session_key] = True
+            # Атомарно увеличиваем счетчик в БД
+            application.view_count = F("view_count") + 1
+            application.save(update_fields=["view_count"])
+            # Обновляем объект из БД, чтобы в шаблоне было актуальное значение
+            application.refresh_from_db()
 
+        return application
+    
+class ApplicationCreateView(CreateView):
+    form_class = ApplicationForm
+    template_name = "application_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "application-create"})
+    success_message = "Вы записаны на практику!"
 
-class ScheduleUpdateView(UpdateView):
-    model = Schedule
-    form_class = ScheduleForm
-    template_name = "schedule_form.html"
-    success_url = reverse_lazy("schedules")
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
 
-class ScheduleDeleteView(DeleteView):
-    model = Schedule
-    template_name = "schedule_delete.html"
-    success_url = reverse_lazy("schedules")
-
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Запись на практику"
+        return context
+    
 class ApplicationUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = "core.change_application"
     model = Application
@@ -225,53 +316,32 @@ class ApplicationUpdateView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class ReviewCreateView(CreateView):
-    model = Review
-    form_class = ReviewModelForm
-    template_name = "review_class_form.html"
-    success_url = reverse_lazy("thanks", kwargs={"source": "review-create"})
 
-class ThanksTemplateView(TemplateView):
-    """
-    Классовая view для маршрута 'thanks/'
-    """
+class SchedulesListView(LoginRequiredMixin, ListView):
+    model = Schedule
+    template_name = "schedules_list.html"
 
-    template_name = "thanks.html"
+
+
+class ScheduleCreateView(UserIsStuffPassedMixin, CreateView):
+    form_class = ScheduleForm
+    template_name = "schedule_class_form.html"
+    success_url = reverse_lazy("schedules-list")
 
     def get_context_data(self, **kwargs):
-        """
-        Расширение get_context_data для возможности передать в шаблон {{ title }} и {{ message }}.
-
-        Они будут разные, в зависимости от куда пришел человек.
-        Со страницы order/create/ с псевдонимом order-create
-        Или со страницы review/create/ с псевдонимом review-create
-        """
         context = super().get_context_data(**kwargs)
-
-        if kwargs["source"]:
-            source = kwargs["source"]
-            if source == "application-create":
-                context["title"] = "Спасибо!"
-                context["message"] = (
-                    "Вы записаны! Мы напомним Вам о предстоящей тренировке."
-                )
-            elif source == "review-create":
-                context["title"] = "Спасибо за отзыв!"
-                context["message"] = (
-                    "Ваш отзыв принят и отправлен на модерацию. После проверки он появится на сайте."
-                )
-            elif source == "schedule-create":
-                context["title"] = "Спасибо!"
-                context["message"] = (
-                    "Тренировка назначена"
-                )
-
-        else:
-            context["title"] = "Спасибо!"
-            context["message"] = "Спасибо за ваше обращение!"
-
+        context["operation_type"] = "Назначение практики"
         return context
 
+    def form_valid(self, form):
+        messages.success(self.request, "Практика успешно назначена!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(
+            self.request, "Ошибка валидации формы! Проверьте введенные данные."
+        )
+        return super().form_invalid(form)
 
 
 class ReviewsListView(ListView):
@@ -279,57 +349,41 @@ class ReviewsListView(ListView):
     model = Review
     context_object_name = "reviews"
 
-class ApplicationCreateView(CreateView):
-    form_class = ApplicationForm
-    template_name = "application_class_form.html"
-    success_url = reverse_lazy("thanks", kwargs={"source": "application-create"})
-
-    def form_valid(self, form):
-        # Получите расписание из формы
-        schedule_id = self.request.POST.get('schedule')
-        schedule = Schedule.objects.get(pk=schedule_id)
-
-        # Проверьте количество записей на расписание
-        if schedule.application_set.count() >= 10:
-            # Если достигнуто максимальное количество записей, отобразите сообщение об ошибке
-            form.add_error('schedule', 'Все гамаки на это время заняты. Вы можете записаться в резерв или выбрать другое удобное для Вас время.')
-            return self.form_invalid(form)
-        
-        # Если есть свободные места, продолжайте обработку формы
-        form.instance.schedule = schedule
-        return super().form_valid(form)
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['initial'] = {'schedule': self.get_initial_schedule()}
-        return kwargs
-
-    def get_initial_schedule(self):
-        # Получите расписание для выбора клиентом
-        schedule = Schedule.objects.first()  # Замените на вашу логику получения расписания
-        return schedule.pk
-
-    def get_selected_schedule(self):
-        # Получите выбранное расписание из формы
-        schedule_id = self.request.POST.get('schedule')
-        schedule = Schedule.objects.get(pk=schedule_id)
-        return schedule
-    
-    
-
-
-
 class ScheduleCreateView(CreateView):
     form_class = ScheduleForm
     template_name = "schedule_class_form.html"
-    success_url = reverse_lazy("thanks", kwargs={"source": "schedule-create"})
-    def get_selected_schedule(self):
-        # Получите выбранное расписание из формы
-        schedule_id = self.request.POST.get('schedule')
-        try:
-            schedule = Schedule.objects.get(pk=schedule_id)
-        except Schedule.DoesNotExist:
-            # Обработайте случай, когда объект Schedule не существует
-            # Например, вы можете вызвать исключение или вернуть значение по умолчанию
-            raise Http404("Расписание, соответствующее запросу, не существует.")
-        return schedule
+    success_url = reverse_lazy("schedule")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Назначение практики"
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Практика успешно назначена!")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Ошибка валидации формы! Проверьте введенные данные.")
+        return super().form_invalid(form)
+
+
+class ScheduleUpdateView(UpdateView):
+    model = Schedule
+    form_class = ScheduleForm
+    template_name = "schedule_class_form.html"
+    success_url = reverse_lazy("schedule")
+    # Стандартное имя - pk, если в url другое - мы можем дать название тут
+    pk_url_kwarg = "schedule_id"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Редактирование практики"
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Практика успешно обновлена!")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Ошибка валидации формы! Проверьте введенные данные.")
+        return super().form_invalid(form)

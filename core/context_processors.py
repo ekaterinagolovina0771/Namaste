@@ -13,6 +13,11 @@ def menu_items(request):
             "url": reverse("landing") + "#top",
             "icon_class": "bi-house",
         },
+                {
+            "name": "Инструкторы",
+            "url": reverse("landing") + "#coaches",
+            "icon_class": "bi-person-badge",
+        },
         {
             "name": "О практиках",
             "url": reverse("landing") + "#about",
@@ -30,7 +35,7 @@ def menu_items(request):
         },
         {
             "name": "Записаться",
-            "url": reverse("landing") + "#get-application",
+            "url": reverse("landing") + "#application-create",
             "icon_class": "bi-calendar-check",
         },
     ]
@@ -43,7 +48,7 @@ def menu_items(request):
         },
         {
             "name": "Практики",
-            "url": reverse("schedules"),
+            "url": reverse("schedule"),
             "icon_class": "bi-list-check",
         },
     ]
