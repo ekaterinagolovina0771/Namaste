@@ -2,9 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-import debug_toolbar
 from debug_toolbar.toolbar import debug_toolbar_urls
-from core.views import (LandingTemplateView, СontraindicationsTemplateView, ApplicationCreateView, ApplicationsListView, ApplicationDetailView, ApplicationUpdateView, ReviewCreateView, ThanksTemplateView, СontraindicationsTemplateView, ReviewsListView, ScheduleCreateView, SchedulesListView, ScheduleUpdateView, AjaxCoachSchedulesView)
+from core.views import (LandingTemplateView,  ApplicationCreateView, ApplicationsListView, ApplicationDetailView, ApplicationUpdateView, ReviewCreateView, ThanksTemplateView, ReviewsListView, ScheduleCreateView, SchedulesListView, ScheduleUpdateView, AjaxCoachSchedulesView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -19,16 +18,19 @@ urlpatterns = [
     path('schedules/', SchedulesListView.as_view(), name='schedule'),
     path('schedule/update/<int:schedule_id>/', ScheduleUpdateView.as_view(), name='schedule-update'),
     path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
-    path('__debug__/', include(debug_toolbar.urls)),
-        # AJAX вью для отдачи массива объектов услуг по ID мастера
+    
+    # AJAX вью для отдачи массива объектов услуг по ID мастера
     path("ajax/schedules/<int:coach_id>/", AjaxCoachSchedulesView.as_view(), name="get_schedule_by_coach"),
+    
+    # Подключаем маршруты приложения users
+    path("users/", include("users.urls")),
 ]
 
 # Добавляем Статику и Медиа ЕСЛИ в режиме разработки
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(
-        settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]
-    )
+
     # Подключим Django Debug  Toolbar
+        # Подключим Django Debug Toolbar
+    urlpatterns += debug_toolbar_urls()
 

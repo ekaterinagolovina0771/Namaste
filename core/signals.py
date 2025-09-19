@@ -20,8 +20,8 @@ def notify_telegram_on_order_create(sender, instance, action, **kwargs):
         # action - post_add - Добавление записи в таблицу многие ко многим
         # kwargs.get('pk_set') - список первичных ключей добавленных записей - создается только при добавлении записи в таблицу 
         if action == 'post_add' and kwargs.get('pk_set'):
-            list_schedules = [schedule.date for schedule in instance.schedules.all()]
-            # appointment_date = instance.appointment_date.strftime("%d.%m.%Y") if instance.appointment_date else "Не указана"
+            list_schedules = [schedule.name for schedule in instance.schedules.all()]
+            date = instance.date.strftime("%d.%m.%Y") if instance.date else "Не указана"
             tg_markdown_message = f"""
 
 ====== *Новая запись!* ======
