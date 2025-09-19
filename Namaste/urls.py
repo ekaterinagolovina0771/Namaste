@@ -9,7 +9,6 @@ from core.views import (LandingTemplateView, СontraindicationsTemplateView, App
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", LandingTemplateView.as_view(), name="landing"),
-    path("contraindications/", СontraindicationsTemplateView.as_view(), name="contraindications"),
     path("applications/", ApplicationsListView.as_view(), name="applications"),
     path("application/<int:application_id>/", ApplicationDetailView.as_view(), name="application"),
     path("application/create/", ApplicationCreateView.as_view(), name="application-create"),

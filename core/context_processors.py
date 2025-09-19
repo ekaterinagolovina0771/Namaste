@@ -11,33 +11,30 @@ def menu_items(request):
         {
             "name": "Главная",
             "url": reverse("landing") + "#top",
-            "icon_class": "bi-house",
+            "icon_class": "bi bi-brightness-high",
         },
-                {
-            "name": "Инструкторы",
-            "url": reverse("landing") + "#coaches",
-            "icon_class": "bi-person-badge",
-        },
-        {
-            "name": "О практиках",
-            "url": reverse("landing") + "#about",
-            "icon_class": "bi-person-badge",
-        },
-        {
-            "name": "contraindications",
+             {
+            "name": "Противопоказания",
             "url": reverse("landing") + "#contraindications",
-            "icon_class": "bi-scissors",
+            "icon_class": "bi bi-cloud-sun",
+        },
+        {
+            "name": "Практики",
+            "url": reverse("landing") + "#schedules",
+            "icon_class": "bi bi-calendar3",
+        },
+   
+                {
+            "name": "Записаться",
+            "url": reverse("landing") + "#get-application",
+            "icon_class": "bi-calendar-check",
         },
         {
             "name": "Отзывы",
             "url": reverse("landing") + "#reviews",
             "icon_class": "bi-chat-dots",
         },
-        {
-            "name": "Записаться",
-            "url": reverse("landing") + "#application-create",
-            "icon_class": "bi-calendar-check",
-        },
+
     ]
 
     staff_menu = [

@@ -95,5 +95,7 @@ class Review(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
-
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
 
