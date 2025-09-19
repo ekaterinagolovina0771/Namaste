@@ -108,8 +108,6 @@ class ThanksTemplateView(TemplateView):
 
         return context
 
-class СontraindicationsTemplateView(TemplateView):
-    template_name = "contraindications.html"
 
 class ApplicationsListView(ListView):
     model = Application

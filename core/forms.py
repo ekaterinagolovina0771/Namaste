@@ -2,7 +2,8 @@ from django import forms
 from .models import Application, Review, Schedule, Coach
 from django.utils import timezone
 from datetime import datetime
-
+from django.core.exceptions import ValidationError
+from django.db.models import Subquery
 
 class ReviewModelForm(forms.ModelForm):
     class Meta:
@@ -38,6 +39,11 @@ class ScheduleForm(forms.ModelForm):
             raise forms.ValidationError("Цена не может быть отрицательной")
         return price
 
+    def clean(self):
+        date = self.cleaned_data.get("date")
+        if date and date < timezone.now().date():
+            raise ValidationError("Вы не можете планировать расписание на прошедшую дату.")
+        return date
 
 class ApplicationForm(forms.ModelForm):
     class Meta:
@@ -63,11 +69,7 @@ class ApplicationForm(forms.ModelForm):
             ),
         }
 
-    # def clean_appointment_date(self):
-    #     appointment_date = self.cleaned_data.get("appointment_date")
-    #     if appointment_date and appointment_date < timezone.now().date():
-    #         raise forms.ValidationError("Дата записи не может быть в прошлом.")
-    #     return appointment_date
+   
 
 
     def clean_schedules(self):
@@ -76,8 +78,10 @@ class ApplicationForm(forms.ModelForm):
         schedules = self.cleaned_data.get("schedules")
         coach = self.cleaned_data.get("coach")
 
-        if not coach or not schedules:
-            raise forms.ValidationError("Вы должны выбрать инструктора и практики.")
+        if not coach:
+            raise forms.ValidationError("Вы должны выбрать инструктора.")
+        if not schedules:
+            raise forms.ValidationError("Вы должны выбрать практику.")
 
         # Добывам все практики которые назначил этот инструктор на самом деле
         coach_schedules = coach.schedules.all()
@@ -91,6 +95,14 @@ class ApplicationForm(forms.ModelForm):
         if not_approved_schedules:
             raise forms.ValidationError("Этот инструктор не назначал следующие практики: " + ", ".join(not_approved_schedules))
         
+        # Проверяем, не превышает ли количество выбранных расписаний установленное ограничение
+        if len(schedules) > 1: 
+            raise forms.ValidationError("Выберите одну практику.")
+        
+        # Check if the number of people attending each selected schedule exceeds the limit
+        for schedule in schedules:
+            if schedule.applications.filter(coach=self.cleaned_data.get("coach")).count() >= 3:
+                raise forms.ValidationError("На это время все гамаки уже заняты. Вы можете записаться в резерв. Мы свяжемся с вами если места появятся.")
         
         return schedules
 
