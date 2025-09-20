@@ -10,7 +10,7 @@
             <ul class="navbar-nav me-auto">
                 {% for item in menu_items %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ item.url }}">
+                        <a class="nav-link" href="{{ item.url }}" style="color: #8dabd1;">
                             <i class="bi {{ item.icon_class }}"></i> {{ item.name }}
                         </a>
                     </li>
@@ -21,7 +21,7 @@
             <ul class="navbar-nav">
                 {% for item in menu_staff_items %}
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ item.url }}">
+                        <a class="nav-link" href="{{ item.url }}" style="color: #8dabd1;">
                             <i class="bi {{ item.icon_class }}"></i> {{ item.name }}
                         </a>
                     </li>
@@ -33,28 +33,28 @@
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <span class="nav-link">{{ user.username }}</span>
+                        <span class="nav-link" style="color: #8dabd1;">{{ user.username }} </span>
                     </li>
                      <li class="nav-item">
-                        <span class="nav-link">|</span>
+                        <span class="nav-link" style="color: #8dabd1;">|</span>
                     </li>
                     <li class="nav-item">
                         {% comment %} Это не будет работать. Class LogoutView принемает только POST!!! {% endcomment %}
                         {% comment %} <a class="nav-link" href="{% url 'logout' %}">Выход</a> {% endcomment %}
-                        <form action="{% url 'logout' %}" method="post">
+                        <form action="{% url 'logout' %}" method="post" style="color: #8dabd1;">
                             {% csrf_token %}
-                            <button type="submit" class="nav-link">Выход</button>
+                            <button type="submit" class="nav-link" style="color: #8dabd1;">Выход</button>
                         </form>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Вход</a>
+                        <a class="nav-link" href="{% url 'login' %}" style="color: #8dabd1;">Вход</a>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link">|</span>
+                        <span class="nav-link" style="color: #8dabd1;">|</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+                        <a class="nav-link" href="{% url 'register' %}" style="color: #8dabd1;">Регистрация</a>
                     </li>
                 {% endif %}
             </ul>

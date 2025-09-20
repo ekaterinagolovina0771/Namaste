@@ -11,16 +11,28 @@ body {
     color: #066d47; /* Обновлен цвет шрифта на темно-зеленый */
 }
 
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999; /* Установите значение z-index, чтобы сделать меню всегда находящимся поверх других элементов */
+}
+
 card-body {
     font-family: 'Marck Script', cursive;
     font-weight: bold;
     color: #066d47; /* Обновлен цвет шрифта на темно-зеленый */
 }
 
-.custom-navbar {
-    background-color: #d81313; /* Цвет фона */
-    color: #b11a33; /* ---- Цвет текста */
+.custom-navbar .navbar {
+    background-color: var(--brand-blue); /* Цвет фона меню */
+    color: #ffffff; /* Цвет текста в меню */
 }
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #12199f; /* Цвет текста ссылок в меню */
+}
+
 
 .custom-navbar .navbar-brand {
     color: #8dabd1; /* !!! Самые темные участки неба для цвета текста логотипа */
@@ -28,15 +40,19 @@ card-body {
 }
 
 .custom-navbar .navbar-nav .nav-link {
-    color: #b11616; /* Цвет текста ссылок */
+    color: #8dabd1; /* Цвет текста ссылок */
 }
 
 .custom-navbar .navbar-nav .nav-link:hover {
-    color: #cb0f0f; /* Цвет текста при наведении */
+    color: #8dabd1; /* Цвет текста при наведении */
 }
 
 .custom-navbar .navbar-toggler-icon {
-    background-color: #cb0606; /* Цвет иконки раскрытия/сворачивания меню */
+    color: #8dabd1; /* Цвет иконки раскрытия/сворачивания меню */
+}
+
+.custom-navbar .navbar-nav .nav-link.logout-link {
+    color: #35068c; /* Цвет текста ссылки для выхода */
 }
 
 .custom-telegram {
@@ -65,6 +81,7 @@ card-body {
 .btn-success {
     font-size: 18px;
     color: white;
+    
 }
 
 .contraindications-column {
@@ -395,6 +412,37 @@ card-body {
   border-radius: 20px;
   font-size: 0.9em;
   font-weight: 500;
+}
+
+.review-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.review-container .review {
+    flex: 0 0 calc(100% / 3); /* Устанавливаем ширину для каждого отзыва */
+    max-width: calc(100% / 3); /* Устанавливаем максимальную ширину для каждого отзыва */
+}
+
+.content-container {
+        padding-top:: 500px; /* Измените значение на нужное вам количество пикселей */
+    }
+
+@media (max-width: 768px) {
+    .review-container .review {
+        flex: 0 0 50%; /* Уменьшаем ширину для мобильных устройств */
+        max-width: 50%; /* Уменьшаем максимальную ширину для мобильных устройств */
+    }
+}
+
+@media (max-width: 480px) {
+    .review-container .review {
+        flex: 0 0 100%; /* Устанавливаем ширину 100% для очень маленьких экранов */
+        max-width: 100%; /* Устанавливаем максимальную ширину 100% для очень маленьких экранов */
+    }
 }
 
 /* Адаптивность */

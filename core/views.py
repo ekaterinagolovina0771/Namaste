@@ -237,7 +237,7 @@ class SchedulesListView(UserIsStuffPassedMixin, ListView):
 
         return schedules
 
-class ApplicationDetailView(DetailView):
+class ApplicationDetailView(UserIsStuffPassedMixin, DetailView):
     model = Application
     template_name = "application_detail.html"
     context_object_name = "application"
@@ -311,7 +311,7 @@ class ApplicationUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 
-class ReviewsListView(ListView):
+class ReviewsListView(UserIsStuffPassedMixin, ListView):
     template_name = "reviews_list.html"
     model = Review
     context_object_name = "reviews"

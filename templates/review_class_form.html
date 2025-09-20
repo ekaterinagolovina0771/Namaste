@@ -1,35 +1,47 @@
 {% extends "base.html" %}
+
+{% block content %}
+<section id="top" class="py-2">
+</section>
 {% block title %}
 Напишите отзыв о нас
 {% endblock title %}
-{% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <h1>Напишите отзыв о нас</h1>
-    </div>
-    <div class="row">
-        <form method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-        <div class="form-group mt-3">
-            <!-- Выводим ошибки для конкретного поля (если есть) -->
-            {% if field.errors %}
-                <div class="alert alert-danger">
-                    {{ field.errors }}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">   
+                    <div class="row">
+                        <h1>Напишите отзыв о нас</h1>
+                    </div>
+                    <div class="row">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group mt-3">
+                                    <!-- Выводим ошибки для конкретного поля (если есть) -->
+                                    {% if field.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Выводим само поле (виджет) -->
+                                    {{ field }}
+
+                                    <!-- Выводим текст помощи, если он есть -->
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            <button type="submit" class="btn btn-success mt-3 mb-3">Отправить отзыв</button>
+                        </form>
+                    </div>
                 </div>
-            {% endif %}
-
-            <!-- Выводим само поле (виджет) -->
-            {{ field }}
-
-            <!-- Выводим текст помощи, если он есть -->
-            {% if field.help_text %}
-                <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
-             {% endfor %}
+            </div>
         </div>
-            <button type="submit" class="btn btn-success mt-3 mb-3">Отправить отзыв</button>
-        </form>
     </div>
+</div>
    
 {% endblock content %}

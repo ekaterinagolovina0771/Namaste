@@ -33,7 +33,7 @@ class Coach(models.Model):
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     experience = models.PositiveIntegerField(verbose_name="Опыт работы", blank=True, null=True, default=0)
     is_active = models.BooleanField(default=True, verbose_name="Активен")
-    schedules = models.ManyToManyField("Schedule", verbose_name="Практики", default=None, related_name="coaches")
+    schedules = models.ManyToManyField("Schedule", verbose_name="Практики", blank=True, null=True, related_name="coaches")
     def __str__(self):
         return self.name
     

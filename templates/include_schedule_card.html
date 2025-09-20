@@ -1,19 +1,9 @@
 {% load static %}
 <div class="col">
   <div class="card h-100 text-center position-relative">
-    {% comment %} {% if service.is_popular %}
-      <span class="badge bg-warning position-absolute top-0 end-0">Хит</span>
-    {% endif %}
-    {% if service.image %}
-      <img src="{{ service.image.url }}"
-           class="card-img-top" alt="{{ service.name }}">
-    {% else %}
-      <img src="{% static 'images/default_service.webp' %}"
-           class="card-img-top" alt="{{ service.name }}">
-    {% endif %} {% endcomment %}
     <div class="card-body">
       <h5 class="card-title">{{ schedule.name }}</h5>
-      <p class="card-text">{{ schedule.description|truncatewords:12 }}</p>
+      <p class="card-text">{{ schedule.description|truncatewords:5 }}</p>
       <p class="card-text">Дата практики: {{ schedule.date }}</p>
       <p class="card-text">Время проведения: {{ schedule.start_time }}</p>
       <p class="card-text">Продолжительность {{ schedule.duration }} мин.</p>

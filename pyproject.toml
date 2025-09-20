@@ -1,9 +1,9 @@
 [project]
-name = "django-consult-413"
+name = "Namaste"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "VladimirMonin",email = "vladimir.monin2016@yandex.ru"}
+    {name = "GolovinaEkaterina",email = "kategolovina84@yandex.ru"}
 ]
 readme = "README.md"
 requires-python = ">=3.10"

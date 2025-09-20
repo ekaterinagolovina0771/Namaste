@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.db.models import QuerySet, Sum
 from .models import Application, Review, Schedule, Coach
 
+
 # admin.site.register(Application)
 # admin.site.register(Review)
 # admin.site.register(Schedule)

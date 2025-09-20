@@ -1,65 +1,65 @@
 {% extends "base.html" %}
 
-{% block title %}
-Детали записи #{{ application.id }} - {{ block.super }}
-{% endblock title %}
-
 {% block content %}
+<section id="top" class="py-2">
+</section>
 <div class="container mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card shadow-sm">
-                <div class="row">
-                    <h2 class="card-title h4 mb-0">Детали записи #{{ application.id }}</h2>
-                </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
                 <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">ID записи:</div>
-                        <div class="col-sm-8">{{ application.id }}</div>
+                    <div class="row">
+                        <h2 class="card-title h4 mb-0">Детали записи #{{ application.id }}</h2>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">Имя клиента:</div>
-                        <div class="col-sm-8">{{ application.name }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">Телефон:</div>
-                        <div class="col-sm-8">{{ application.phone }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4 text-muted">Статус записи:</div>
-                        <div class="col-sm-8"><span>{{ application.get_status_display }}</span></div>
-                    </div>
-                    <div class="row mb-3">
-                        {% for schedule  in application.schedules.all  %}
-                        <div class="col-sm-4 text-muted">Дата практики:</div>
-                        <div class="col-sm-8"><span>{{ schedule.date }}</span></div>
-                        <div class="col-sm-4 text-muted">Время практики:</div>
-                        <div class="col-sm-8"><span>{{ schedule.start_time }}</span></div>
-                        {% endfor %}
-                    </div>
-                    {% if application.comment %}
+                    <div class="card-body">
                         <div class="row mb-3">
-                            <div class="col-sm-4 text-muted">Комментарий:</div>
-                            <div class="col-sm-8">{{ application.comment }}</div>
+                            <div class="col-sm-4 text-muted">ID записи:</div>
+                            <div class="col-sm-8">{{ application.id }}</div>
                         </div>
-                    {% endif %}
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">Имя клиента:</div>
+                            <div class="col-sm-8">{{ application.name }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">Телефон:</div>
+                            <div class="col-sm-8">{{ application.phone }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">Статус записи:</div>
+                            <div class="col-sm-8"><span>{{ application.get_status_display }}</span></div>
+                        </div>
+                        <div class="row mb-3">
+                            {% for schedule  in application.schedules.all  %}
+                            <div class="col-sm-4 text-muted">Дата практики:</div>
+                            <div class="col-sm-8 mb-3"><span>{{ schedule.date }}</span></div>
+                            <div class="col-sm-4 text-muted">Время практики:</div>
+                            <div class="col-sm-8"><span>{{ schedule.start_time }}</span></div>
+                            {% endfor %}
+                        </div>
+                        {% if application.comment %}
+                            <div class="row mb-3">
+                                <div class="col-sm-4 text-muted">Комментарий:</div>
+                                <div class="col-sm-8">{{ application.comment }}</div>
+                            </div>
+                        {% endif %}
 
-                    <div class="card-footer text-muted text-center">
-                        <small>Запись создана: {{ application.date_created|date:"d.m.Y H:i" }}</small>
+                        <div class="card-footer text-muted text-center">
+                            <small>Запись создана: {{ application.date_created|date:"d.m.Y H:i" }}</small>
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer bg-light">
-                    <div class="text-center mt-4">
-                        <a href="{% url 'application-update' application.id %}" class="btn btn-btn-success">
-                            <i class="bi bi-pencil-square"></i> Редактировать
-                        </a>
+                    <div class="card-footer bg-light">
+                        <div class="text-center mt-4">
+                            <a href="{% url 'application-update' application.id %}" class="btn btn-btn-success">
+                                <i class="bi bi-pencil-square"></i> Редактировать
+                            </a>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="{% url 'applications' %}" class="btn btn-s">
+                                <i class="bi bi-arrow-left"></i> Назад к списку записей
+                            </a>
+                        </div>
                     </div>
-                    <div class="text-center mt-4">
-                        <a href="{% url 'applications' %}" class="btn btn-s">
-                            <i class="bi bi-arrow-left"></i> Назад к списку записей
-                        </a>
-                    </div>
-                </div>
+                </div>    
             </div>
         </div>
     </div>

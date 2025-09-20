@@ -18,12 +18,6 @@ def menu_items(request):
             "icon_class": "bi bi-cloud-sun",
         },
         {
-            "name": "Практики",
-            "url": reverse("landing") + "#schedules",
-            "icon_class": "bi bi-calendar3",
-        },
-   
-                {
             "name": "Записаться",
             "url": reverse("landing") + "#get-application",
             "icon_class": "bi-calendar-check",
