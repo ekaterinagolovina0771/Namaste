@@ -49,6 +49,7 @@ class Schedule(models.Model):
     date = models.DateField(default=timezone.now)
     start_time = models.TimeField(default=time(9, 0))
     duration = models.PositiveIntegerField(verbose_name="Длительность", help_text="Длительность практики в минутах", default=90)
+    coach = models.ForeignKey("Coach", on_delete=models.SET_NULL, null=True, verbose_name="Инструктор")
 
     def __str__(self):
         return f'{self.date} - {self.start_time}' if self.date and self.start_time else "Не указаны дата и время"

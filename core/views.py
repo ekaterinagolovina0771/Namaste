@@ -2,7 +2,7 @@
 from django.forms import BaseModelForm
 from .forms import ReviewModelForm, ApplicationForm, ScheduleForm
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponseNotAllowed
+from django.http import JsonResponse, HttpResponseNotAllowed, HttpResponseRedirect, HttpResponse, Http404
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from .models import Application, Review, Schedule, Coach
@@ -198,10 +198,6 @@ class ApplicationsListView(ListView):
         return context
 
 
-class ReviewsListView(ListView):
-    model = Review
-    template_name = "reviews.html"
-    context_object_name = "reviews"
 
 class SchedulesListView(ListView):
     model = Schedule
@@ -315,33 +311,12 @@ class ApplicationUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 
-class ScheduleCreateView(UserIsStuffPassedMixin, CreateView):
-    form_class = ScheduleForm
-    template_name = "schedule_class_form.html"
-    success_url = reverse_lazy("schedules-list")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["operation_type"] = "Назначение практики"
-        return context
-
-    def form_valid(self, form):
-        messages.success(self.request, "Практика успешно назначена!")
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(
-            self.request, "Ошибка валидации формы! Проверьте введенные данные."
-        )
-        return super().form_invalid(form)
-
-
 class ReviewsListView(ListView):
     template_name = "reviews_list.html"
     model = Review
     context_object_name = "reviews"
 
-class ScheduleCreateView(CreateView):
+class ScheduleCreateView(UserIsStuffPassedMixin, CreateView):
     form_class = ScheduleForm
     template_name = "schedule_class_form.html"
     success_url = reverse_lazy("schedule")
@@ -349,16 +324,37 @@ class ScheduleCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["operation_type"] = "Назначение практики"
         return context
-    
+
     def form_valid(self, form):
+        # get the selected coach
+        coach = form.cleaned_data.get('coach')
+
+        # create a new Schedule instance
+        schedule_data = {'coach': coach, **form.cleaned_data}
+        schedule = Schedule.objects.create(**schedule_data)
+
+        # Associate the schedule with the coach
+        coach.schedules.add(schedule)
+
         messages.success(self.request, "Практика успешно назначена!")
-        return super().form_valid(form)
-    
+        return HttpResponseRedirect(self.get_success_url())
+
     def form_invalid(self, form):
         messages.error(self.request, "Ошибка валидации формы! Проверьте введенные данные.")
         return super().form_invalid(form)
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj is None:
+            raise Http404("No Schedule found with this id.")
+        return obj
 
+    def get_success_url(self):
+        if self.object:
+            return reverse('schedule-update', kwargs={'pk': self.object.pk})
+        else:
+            return self.success_url
+            
 class ScheduleUpdateView(UpdateView):
     model = Schedule
     form_class = ScheduleForm

@@ -32,18 +32,13 @@ class ScheduleForm(forms.ModelForm):
             'start_time': forms.TimeInput(attrs={'type': 'time', 'step': '300'}),
             "duration": forms.NumberInput(attrs={"class": "form-control"}),
         }
+    coach = forms.ModelChoiceField(queryset=Coach.objects.all(), required=True)
 
     def clean_price(self):
         price = self.cleaned_data.get("price")
         if price < 0:
             raise forms.ValidationError("Цена не может быть отрицательной")
         return price
-
-    def clean(self):
-        date = self.cleaned_data.get("date")
-        if date and date < timezone.now().date():
-            raise ValidationError("Вы не можете планировать расписание на прошедшую дату.")
-        return date
 
 class ApplicationForm(forms.ModelForm):
     class Meta:
@@ -101,7 +96,7 @@ class ApplicationForm(forms.ModelForm):
         
         # Check if the number of people attending each selected schedule exceeds the limit
         for schedule in schedules:
-            if schedule.applications.filter(coach=self.cleaned_data.get("coach")).count() >= 3:
+            if schedule.applications.filter(coach=self.cleaned_data.get("coach")).count() >= 8:
                 raise forms.ValidationError("На это время все гамаки уже заняты. Вы можете записаться в резерв. Мы свяжемся с вами если места появятся.")
         
         return schedules
