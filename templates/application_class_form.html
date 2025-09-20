@@ -1,49 +1,53 @@
 {% extends 'base.html' %}
+{% load l10n %}
 
 {% block content %}
 <div class="container mt-5">
-            <div class="row">
-                <h1>Ваша запись</h1>
-            </div>
-            <div class="row">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% comment %} Цикл по ошибкам не связанным с полем {% endcomment %}
-                        {% for error in form.non_field_errors %}
-                           <div class="alert alert-danger">{{ error }}</div>
-                        {% endfor %}
-                        {% for field in form %}
-                        {% for error in field.errors %}
-                            <div class="alert alert-danger mt-1">{{ error }}</div>
-                        {% endfor %}
-                            {% comment %} Если поле schedules то мы заходим в рендер чекбоксов практик {% endcomment %}
-                            {% if field.name == 'schedules' %}
-                            <div class="mb-3">
-                                <label class="form-label">{{ field.label }}</label>
-                                <div id="schedules-container" class="row">
-                                    {% for choice in form.schedules %}
-                                        <div class="col-6 form-check">
-                                            {{ choice.tag }}
-                                            <label class="form-check-label" for="{{ choice.id_for_label }}">
-                                                {{ choice.choice_label }}
-                                            </label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="mb-3">
-                                {{ field.label_tag }}
-                                {{ field }}
-                                {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                {% endif %}
-
-                                {% endif %}
+    <div class="row">
+        <h1>Ваша запись</h1>
+    </div>
+    <div class="row">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% comment %} Цикл по ошибкам не связанным с полем {% endcomment %}
+            {% for error in form.non_field_errors %}
+               <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger mt-1">{{ error }}</div>
+                {% endfor %}
+                {% comment %} Если поле schedules то мы заходим в рендер чекбоксов практик {% endcomment %}
+                {% if field.name == 'schedules' %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    <div id="schedules-container" class="row">
+                        {% for choice in form.schedules %}
+                            <div class="col-6 form-check">
+                                {{ choice.tag }}
+                                <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                    {{ choice.choice_label }}
+                                </label>
                             </div>
                         {% endfor %}
-                        <button type="submit" class="btn btn-success w-100">Сохранить</button>
-                    </form>
+                    </div>
+                </div>
+                {% else %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endif %}
+            {% endfor %}
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="terms" id="id_terms" value="1" required>
+                <label for="id_terms">Я ознакомился(лась) с условиями и соглашениями</label>
             </div>
+            <button type="submit" class="btn btn-success mt-3 mb-3" disabled{% if form.cleaned_data.terms %} disabled{% endif %}>Сохранить</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
