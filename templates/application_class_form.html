@@ -42,11 +42,7 @@
                 </div>
                 {% endif %}
             {% endfor %}
-            <div class="mb-3 form-check">
-                <input type="checkbox" name="terms" id="id_terms" value="1" required>
-                <label for="id_terms">Я ознакомился(лась) с условиями и соглашениями</label>
-            </div>
-            <button type="submit" class="btn btn-success mt-3 mb-3" disabled{% if form.cleaned_data.terms %} disabled{% endif %}>Сохранить</button>
+            <button type="submit" class="btn btn-success mt-3 mb-3">Сохранить</button>
         </form>
     </div>
 </div>
