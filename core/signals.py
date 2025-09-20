@@ -1,11 +1,21 @@
-# signals.py
+import asyncio
+import time
+import telegram
+from datetime import timezone, timedelta
+
+# ...
+
+import logging
+
+import datetime
+
+from django.conf import settings
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
-from .models import Review, Application
+
 from .mistral import is_bad_review
 from .telegram_bot import send_telegram_message
-from django.conf import settings
-import asyncio
+from .models import Review, Application
 
 api_key = settings.TELEGRAM_BOT_API_KEY
 user_id = settings.TELEGRAM_USER_ID
