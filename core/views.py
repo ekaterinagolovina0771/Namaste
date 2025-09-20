@@ -109,7 +109,7 @@ class ThanksTemplateView(TemplateView):
         return context
 
 
-class ApplicationsListView(ListView):
+class ApplicationsListView(UserIsStuffPassedMixin, ListView):
     model = Application
     template_name = "applications_list.html"
     context_object_name = "applications"
@@ -199,7 +199,7 @@ class ApplicationsListView(ListView):
 
 
 
-class SchedulesListView(ListView):
+class SchedulesListView(UserIsStuffPassedMixin, ListView):
     model = Schedule
     template_name = "schedules_list.html"
     context_object_name = "schedules"
@@ -355,7 +355,7 @@ class ScheduleCreateView(UserIsStuffPassedMixin, CreateView):
         else:
             return self.success_url
             
-class ScheduleUpdateView(UpdateView):
+class ScheduleUpdateView(UserIsStuffPassedMixin, UpdateView):
     model = Schedule
     form_class = ScheduleForm
     template_name = "schedule_class_form.html"

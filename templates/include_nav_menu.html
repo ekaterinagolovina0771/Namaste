@@ -19,7 +19,7 @@
             {% comment %} Меню для персонала user.is_staff {% endcomment %}
             {% if user.is_staff %}
             <ul class="navbar-nav">
-                {% for item in staff_menu %}
+                {% for item in menu_staff_items %}
                         <li class="nav-item">
                         <a class="nav-link" href="{{ item.url }}">
                             <i class="bi {{ item.icon_class }}"></i> {{ item.name }}
